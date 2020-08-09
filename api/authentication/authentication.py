@@ -34,7 +34,8 @@ class Authentication:
       'firstName': 1,
       'lastName': 1,
       'email': 1, 
-      'dp': 1
+      'dp': 1,
+      '_id': 0
     })
   
   def __sign_jwt(self, email, _id):
@@ -83,8 +84,8 @@ class Authentication:
     return token
   
   def delete_account(self, email):
-    self.__delete_account()
-    self.__delete_all_notes()
+    self.__delete_account(email)
+    self.__delete_all_notes(email)
 
     return True
   

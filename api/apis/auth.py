@@ -10,7 +10,7 @@ authentication = Authentication()
 def get_user():
   token = request.headers.get("Authorization")
 
-  valid, data = authentication.check_token(token)
+  valid, token_data = authentication.check_token(token)
 
   if not valid:
     return make_response(send_resp(401, "Invalid authorization token"), 401)
@@ -59,12 +59,14 @@ def google_login():
 def delete_user():
   token = request.headers.get("Authorization")
 
-  valid, data = authentication.check_token(token)
+  valid, token_data = authentication.check_token(token)
 
   if not valid:
     return make_response(send_resp(401, "Invalid authorization token"), 401)
   
   email = token_data["email"]
+
+  print("here")
 
   try:
     result = authentication.delete_account(email)
