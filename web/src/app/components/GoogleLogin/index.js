@@ -7,7 +7,7 @@ const GoogleLoginButton = () => {
   const responseGoogle = async (response) => {
     const token = response.accessToken;
     const result = await googleLogin(token);
-    if (result.data && result.data.statusCode === 200) {
+    if (result.data && result.statusCode === 200) {
       const token = result.data.token;
       localStorage.setItem("id_token", token);
     }
