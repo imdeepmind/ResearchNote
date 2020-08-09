@@ -1,9 +1,16 @@
 import React from "react";
 import GoogleLogin from "react-google-login";
 
+import { googleLogin } from "../../apis/auth.api";
+
 const GoogleLoginButton = () => {
-  const responseGoogle = (response) => {
-    console.log(response);
+  const responseGoogle = async (response) => {
+    const token = response.accessToken;
+    const result = await googleLogin(token);
+    if (result.data && result.data.statusCode === 200) {
+      const token = result.data.token;
+      localStorage.setItem("id_token", token);
+    }
   };
 
   return (

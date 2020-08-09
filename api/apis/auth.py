@@ -47,7 +47,7 @@ def google_login():
   try:
       result = authentication.google_login(data["access_token"])
 
-      return make_response(send_resp(200, "Logged in", result), 200)
+      return make_response(send_resp(200, "Logged in", {"token": result}), 200)
   except ValueError as ex:
       return make_response(send_resp(400, str(ex)), 400)
   except Exception as ex:
