@@ -16,7 +16,7 @@ class Notes:
     })
 
   def update_note(self, email, id, title, content):
-    return self.__collection.find_one_and_update({'email': email, '_id': id}, {'$set': {
+    return self.__collection.find_one_and_update({'email': email, '_id': ObjectId(id)}, {'$set': {
       'email': email,
       'title': title,
       'content': content,

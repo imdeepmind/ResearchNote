@@ -91,18 +91,26 @@ def create_note():
 @notes_api.route("/<id>", methods=["PUT"])
 def update_note(id):
   data = request.json
+  token = request.headers.get("Authorization")
+
+  valid, token_data = authentication.check_token(token)
+
+  if not valid:
+    return make_response(send_resp(401, "Invalid authorization token"), 401)
+  
+  email = token_data["email"]
 
   errors = []
 
   if "title" not in data:
     errors.append({
-      'field': 'access_token',
+      'field': 'title',
       'error': 'Please provide a valid title'
     })
   
   if "content" not in data:
     errors.append({
-      'field': 'access_token',
+      'field': 'content',
       'error': 'Please provide a valid content'
     })
   
