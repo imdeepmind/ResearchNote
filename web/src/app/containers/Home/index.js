@@ -1,7 +1,13 @@
 import React from "react";
 
-const App = () => {
-  return <h1>Hello World from Home!!!</h1>;
+import GoogleLoginButton from "../../components/GoogleLogin";
+
+const Home = () => {
+  return (
+    <div>
+      <GoogleLoginButton />
+    </div>
+  );
 };
 
-export default App;
+export default Home;

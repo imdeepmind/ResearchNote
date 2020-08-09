@@ -6,6 +6,8 @@ import App from "./app";
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 
+require("dotenv").config();
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
