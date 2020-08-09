@@ -1,8 +1,9 @@
 import React from "react";
+import { Layout } from "antd";
+
 import Editor from "../../components/Editor";
 import Sidebar from "../../components/Sidebar";
-
-import { Layout } from "antd";
+import CreateNote from "../../components/CreateNote";
 
 const App = () => {
   const deleteAcc = () => {
@@ -22,30 +23,33 @@ const App = () => {
   };
 
   return (
-    <Layout>
+    <>
       <Layout>
-        <Sidebar
-          profile={{
-            name: "Abhishek Chatterjee",
-            logout,
-            deleteAcc,
-          }}
-          notes={{
-            newNote,
-            allNotes: [
-              {
-                title: "Test Note",
-                id: "note_id",
-              },
-            ],
-            openNote,
-          }}
-        />
         <Layout>
-          <Editor />
+          <Sidebar
+            profile={{
+              name: "Abhishek Chatterjee",
+              logout,
+              deleteAcc,
+            }}
+            notes={{
+              newNote,
+              allNotes: [
+                {
+                  title: "Test Note",
+                  id: "note_id",
+                },
+              ],
+              openNote,
+            }}
+          />
+          <Layout>
+            <Editor />
+          </Layout>
         </Layout>
       </Layout>
-    </Layout>
+      <CreateNote state={true} />
+    </>
   );
 };
 

@@ -1,0 +1,60 @@
+import React, { useState, useEffect } from "react";
+import { Modal, Form, Input } from "antd";
+
+const CreateNote = (props) => {
+  const [title, setTitle] = useState("");
+  const [open, setOpen] = useState(false);
+  const { state, onSubmit } = props;
+  const toggle = () => setOpen((open) => !open);
+
+  useEffect(() => {
+    setOpen(state);
+  }, [state]);
+
+  const handleSubmit = async (data) => {
+    console.log(data);
+    if (onSubmit) {
+      await onSubmit({
+        title,
+      });
+    }
+
+    toggle();
+  };
+
+  const onFieldChange = (value) => {
+    console.log(value)
+    const fieldValue = value[0].value;
+    setTitle(fieldValue);
+  };
+
+  return (
+    <>
+      <Modal
+        title="Create a new note"
+        visible={open}
+        onOk={handleSubmit}
+        onCancel={toggle}
+        okText={"Create"}
+      >
+        <Form
+          name="create_note"
+          onFinish={handleSubmit}
+          onFieldsChange={onFieldChange}
+        >
+          <Form.Item
+            label="Note Name"
+            name="name"
+            rules={[
+              { required: true, message: "Please input name for the report" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+        </Form>
+      </Modal>
+    </>
+  );
+};
+
+export default CreateNote;
