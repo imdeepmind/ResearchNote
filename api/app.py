@@ -6,12 +6,16 @@ from time import strftime
 
 from utils import logger, send_resp
 
+from apis import Authentication
+
 app = Flask(__name__)
 CORS(app)
 
 app.config['ENV'] = getenv("PYTHON_ENV")
 app.config['DEBUG'] = getenv("FLASK_DEBUG")
 app.config['TESTING'] = getenv("FLASK_TESTING")
+
+app.register_blueprint(Authentication, url_prefix="/api/v1/auth")
 
 @app.after_request
 def after_request(response):
