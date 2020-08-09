@@ -6,7 +6,7 @@ from time import strftime
 
 from utils import logger, send_resp
 
-from apis import Authentication
+from apis import Authentication, Notes
 
 app = Flask(__name__)
 CORS(app)
@@ -16,6 +16,7 @@ app.config['DEBUG'] = getenv("FLASK_DEBUG")
 app.config['TESTING'] = getenv("FLASK_TESTING")
 
 app.register_blueprint(Authentication, url_prefix="/api/v1/auth")
+app.register_blueprint(Notes, url_prefix="/api/v1/notes")
 
 @app.after_request
 def after_request(response):
