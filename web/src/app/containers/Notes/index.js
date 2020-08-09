@@ -1,7 +1,12 @@
 import React from "react";
+import Editor from "../../components/Editor";
 
 const App = () => {
-  return <h1>Hello World from Notes!!!</h1>;
+  return (
+    <div>
+      <Editor />
+    </div>
+  )
 };
 
 export default App;
