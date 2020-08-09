@@ -24,7 +24,7 @@ class Notes:
     }})
   
   def delete_note(self, email, id):
-    return self.__collection.find_one_and_delete({'email': email, '_id': id})
+    return self.__collection.find_one_and_delete({'email': email, '_id': ObjectId(id)})
   
   def get_specific_note(self, email, id):
     return self.__collection.find_one({'email': email, '_id': ObjectId(id)})
