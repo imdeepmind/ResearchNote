@@ -14,6 +14,7 @@
 
  .RichEditor-root {
   padding: 25px 30px;
+  height: 100vh;
 }
 
 .RichEditor-editor {
