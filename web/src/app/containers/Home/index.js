@@ -2,10 +2,10 @@ import React from "react";
 
 import GoogleLoginButton from "../../components/GoogleLogin";
 
-const Home = () => {
+const Home = props => {
   return (
     <div>
-      <GoogleLoginButton />
+      <GoogleLoginButton {...props} />
     </div>
   );
 };

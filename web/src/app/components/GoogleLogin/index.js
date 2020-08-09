@@ -3,13 +3,14 @@ import GoogleLogin from "react-google-login";
 
 import { googleLogin } from "../../apis/auth.api";
 
-const GoogleLoginButton = () => {
+const GoogleLoginButton = props => {
   const responseGoogle = async (response) => {
     const token = response.accessToken;
     const result = await googleLogin(token);
     if (result.data && result.statusCode === 200) {
       const token = result.data.token;
       localStorage.setItem("id_token", token);
+      props.history.push("/notes")
     }
   };
 
