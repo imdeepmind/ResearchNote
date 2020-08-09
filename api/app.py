@@ -8,7 +8,7 @@ from flask.json import JSONEncoder
 
 from utils import logger, send_resp, CustomJSONEncoder
 
-from apis import Authentication, Notes
+from apis import Authentication, Notes, Export
 
 app = Flask(__name__)
 CORS(app)
@@ -21,6 +21,7 @@ app.config['TESTING'] = getenv("FLASK_TESTING")
 
 app.register_blueprint(Authentication, url_prefix="/api/v1/auth")
 app.register_blueprint(Notes, url_prefix="/api/v1/notes")
+app.register_blueprint(Export, url_prefix="/api/v1/export")
 
 @app.after_request
 def after_request(response):
