@@ -66,8 +66,6 @@ def delete_user():
   
   email = token_data["email"]
 
-  print("here")
-
   try:
     result = authentication.delete_account(email)
 
