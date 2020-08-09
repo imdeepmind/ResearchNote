@@ -1,12 +1,12 @@
 import requests
 import jwt
 
-from db import db
+from db import Users, Notes
 from time import time
 
 class Authentication:
   def __init__(self):
-      self.collection = db["Users"]
+      self.collection = Users
 
   def __check_user(self, email):
     result = self.collection.count_documents({'email': email})
@@ -20,9 +20,7 @@ class Authentication:
     return self.collection.find_one_and_delete({'email': email})
   
   def __delete_all_notes(self, email):
-    notes_collection = db["Notes"]
-
-    return notes_collection.find_one_and_delete({'email': email})
+    return Notes.find_one_and_delete({'email': email})
   
   def __set_user(self, email, data):
     return self.collection.find_one_and_update({'email': email}, {'$set': data}, upsert=True).inserted_id

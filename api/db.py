@@ -9,8 +9,12 @@ try:
 	db = client[getenv("MONGO_DB_NAME")]
 	print("Connected with the db...")
 
-	db["Users"].create_index('email', unique=True)
-	db["Notes"].create_index('email')
+	# All Collections
+	Users = db["Users"]
+	Notes = db["Notes"]
+
+	Users.create_index('email', unique=True)
+	Notes.create_index('email')
 
 except Exception as ex:
 	logger.exception(ex)
