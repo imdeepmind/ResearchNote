@@ -3,13 +3,17 @@ from os import getenv
 from flask import Flask, request, make_response
 from flask_cors import CORS
 from time import strftime
+from bson import json_util
+from flask.json import JSONEncoder
 
-from utils import logger, send_resp
+from utils import logger, send_resp, CustomJSONEncoder
 
 from apis import Authentication, Notes
 
 app = Flask(__name__)
 CORS(app)
+
+app.json_encoder = CustomJSONEncoder
 
 app.config['ENV'] = getenv("PYTHON_ENV")
 app.config['DEBUG'] = getenv("FLASK_DEBUG")

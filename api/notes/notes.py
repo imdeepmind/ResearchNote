@@ -1,9 +1,9 @@
 from time import time
-from db import Notes
+from db import Notes as NotesDB
 
 class Notes:
   def __init__(self):
-    self.__collection = Notes
+    self.__collection = NotesDB
   
   def create_note(self, email, title):
     return self.__collection.insert_one({
