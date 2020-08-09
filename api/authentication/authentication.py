@@ -16,6 +16,14 @@ class Authentication:
 
     return False
   
+  def __delete_account(self, email):
+    return self.collection.find_one_and_delete({'email': email})
+  
+  def __delete_all_notes(self, email):
+    notes_collection = db["Notes"]
+
+    return notes_collection.find_one_and_delete({'email': email})
+  
   def __set_user(self, email, data):
     return self.collection.find_one_and_update({'email': email}, {'$set': data}, upsert=True).inserted_id
 
@@ -55,6 +63,10 @@ class Authentication:
     token = self.__sign_jwt(email, _id)
 
     # Returning from the function
-    return {
-      'token': token
-    }
+    return token
+  
+  def delete_account(self, email):
+    self.__delete_account()
+    self.__delete_all_notes()
+
+    return True
