@@ -43,7 +43,7 @@ class Authentication:
       return jwt.decode(token, os.getenv("JWT_SECRET"))
     except Exception as ex:
       logger.exception(ex)
-      raise ValueError("Please provide a valid authentication token")
+      return False
 
   def google_login(self, access_token):
     # Sending a req to google server
@@ -92,5 +92,7 @@ class Authentication:
   def check_token(self, token):
     # TODO: I will add more validation here
     data = self.__parse_token(token)
-    
-    return True, data
+
+    if data:
+      return True, data
+    return False, {}
