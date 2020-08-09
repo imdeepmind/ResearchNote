@@ -27,7 +27,7 @@ class Notes:
     return self.__collection.find_one_and_delete({'email': email, '_id': id})
   
   def get_specific_note(self, email, id):
-    return self.__collection.find_one({'email': email, '_id': id})
+    return self.__collection.find_one({'email': email, '_id': ObjectId(id)})
   
   def get_all_notes(self, email, last_id, page_size):
     if last_id is None:
@@ -38,4 +38,3 @@ class Notes:
     data = [x for x in cursor]
 
     return data
-  
