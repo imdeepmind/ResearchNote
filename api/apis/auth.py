@@ -6,7 +6,7 @@ from authentication import Authentication
 auth_api = Blueprint('auth_api', __name__)
 authentication = Authentication()
 
-@auth_api.route("/", methods={GET})
+@auth_api.route("/", methods=["GET"])
 def get_user():
   token = request.headers.get("Authorization")
 
@@ -48,3 +48,24 @@ def google_login():
   except Exception as ex:
       logger.exception(ex)
       return make_response(send_resp(500, "Something went wrong with the server"), 500)
+
+
+@auth_api.route("/", methods=["DELETE"])
+def get_user():
+  token = request.headers.get("Authorization")
+
+  valid, data = authentication.check_token(token)
+
+  if not valid:
+    return make_response(send_resp(401, "Invalid authorization token"), 401)
+  
+  email = token_data["email"]
+
+  try:
+    result = authentication.delete_account(email)
+
+    return make_response(send_resp(204, "Account deleted"), 204)
+    
+  except Exception as ex:
+    logger.exception(ex)
+    return make_response(send_resp(500, "Something went wrong with the server"), 500)
