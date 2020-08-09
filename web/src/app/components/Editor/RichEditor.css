@@ -13,17 +13,11 @@
  */
 
  .RichEditor-root {
-  background: #fff;
-  border: 1px solid #ddd;
-  font-size: 14px;
-  padding: 15px;
+  padding: 25px 30px;
 }
 
 .RichEditor-editor {
-  border-top: 1px solid #ddd;
   cursor: text;
-  font-size: 16px;
-  margin-top: 10px;
 }
 
 .RichEditor-editor .public-DraftEditorPlaceholder-root,
@@ -58,6 +52,7 @@
   font-size: 14px;
   margin-bottom: 5px;
   user-select: none;
+  display: none;
 }
 
 .RichEditor-styleButton {

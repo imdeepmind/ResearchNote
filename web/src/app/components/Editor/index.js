@@ -87,7 +87,7 @@ class Editor extends React.Component {
             handleKeyCommand={this.handleKeyCommand}
             keyBindingFn={this.mapKeyToEditorCommand}
             onChange={this.onChange}
-            placeholder="Tell a story..."
+            placeholder="Type something..."
             ref="editor"
             spellCheck={true}
           />
