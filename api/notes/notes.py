@@ -1,6 +1,8 @@
 from time import time
 from db import Notes as NotesDB
 
+from bson.objectid import ObjectId
+
 class Notes:
   def __init__(self):
     self.__collection = NotesDB
@@ -29,9 +31,9 @@ class Notes:
   
   def get_all_notes(self, email, last_id, page_size):
     if last_id is None:
-      cursor = self.__collection.find({'email': email}).limit(page_size)
+      cursor = self.__collection.find({'email': email}).limit(int(page_size))
     else:
-      cursor = self.__collection.find({'email': email, '_id': {'$gt': last_id}}).limit(page_size)
+      cursor = self.__collection.find({'email': email, '_id': {'$gt': ObjectId(last_id)}}).limit(int(page_size))
 
     data = [x for x in cursor]
 

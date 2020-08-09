@@ -31,7 +31,8 @@ def get_note(id):
     logger.exception(ex)
     return make_response(send_resp(500, "Something went wrong with the server"), 500)
 
-@notes_api.route("/<last_id>/<limit>", methods=["GET"])
+@notes_api.route("/<limit>/", defaults={'last_id': None}, methods=["GET"])
+@notes_api.route("/<limit>/<last_id>", methods=["GET"])
 def get_notes(last_id, limit):
   token = request.headers.get("Authorization")
 
