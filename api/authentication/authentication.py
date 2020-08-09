@@ -1,5 +1,7 @@
 import requests
 import jwt
+from os import getenv
+from json import loads
 
 from db import Users, Notes
 from utils import logger
@@ -25,7 +27,7 @@ class Authentication:
     return Notes.find_one_and_delete({'email': email})
   
   def __set_user(self, email, data):
-    return self.collection.find_one_and_update({'email': email}, {'$set': data}, upsert=True).inserted_id
+    return self.collection.find_one_and_update({'email': email}, {'$set': data}, upsert=True)
   
   def __get_user(self, email):
     return self.collection.find_one({'email': email}, {
@@ -36,11 +38,11 @@ class Authentication:
     })
   
   def __sign_jwt(self, email, _id):
-    return jwt.encode({'email': email, '_id': str(_id)}, os.getenv("JWT_SECRET")).decode("ascii")
+    return jwt.encode({'email': email, '_id': str(_id)}, getenv("JWT_SECRET")).decode("ascii")
   
   def __parse_token(self, token):
     try:
-      return jwt.decode(token, os.getenv("JWT_SECRET"))
+      return jwt.decode(token, getenv("JWT_SECRET"))
     except Exception as ex:
       logger.exception(ex)
       return False
@@ -66,16 +68,16 @@ class Authentication:
     }
 
     # Checking if user exists or not
-    if self.__check_user(email):
+    if self.__check_user(google_data["email"]):
       google_data["updated_at"] = int(time())
     else:
       google_data["created_at"] = int(time())
 
     # Saving or updating google data
-    _id = self.__set_user(google_data["email"], google_data)
+    updated_data = self.__set_user(google_data["email"], google_data)
 
     # Generating JWT token
-    token = self.__sign_jwt(email, _id)
+    token = self.__sign_jwt(google_data["email"], updated_data["_id"])
 
     # Returning from the function
     return token
