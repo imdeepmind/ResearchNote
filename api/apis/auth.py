@@ -33,11 +33,16 @@ def get_user():
 def google_login():
   data = request.json
 
+  errors = []
+
   if "access_token" not in data:
     errors.append({
       'field': 'access_token',
       'error': 'Please provide a valid google token'
     })
+  
+  if len(errors) > 0:
+    return make_response(send_resp(400, "Input validation failed", data={'errors': errors}), 400)
 
   try:
       result = authentication.google_login(data["access_token"])
@@ -51,7 +56,7 @@ def google_login():
 
 
 @auth_api.route("/", methods=["DELETE"])
-def get_user():
+def delete_user():
   token = request.headers.get("Authorization")
 
   valid, data = authentication.check_token(token)
