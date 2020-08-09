@@ -2,6 +2,8 @@ import requests
 import jwt
 
 from db import Users, Notes
+from utils import logger
+
 from time import time
 
 class Authentication:
@@ -24,9 +26,24 @@ class Authentication:
   
   def __set_user(self, email, data):
     return self.collection.find_one_and_update({'email': email}, {'$set': data}, upsert=True).inserted_id
-
+  
+  def __get_user(self, email):
+    return self.collection.find_one({'email': email}, {
+      'firstName': 1,
+      'lastName': 1,
+      'email': 1, 
+      'dp': 1
+    })
+  
   def __sign_jwt(self, email, _id):
     return jwt.encode({'email': email, '_id': str(_id)}, os.getenv("JWT_SECRET")).decode("ascii")
+  
+  def __parse_token(self, token):
+    try:
+      return jwt.decode(token, os.getenv("JWT_SECRET"))
+    except Exception as ex:
+      logger.exception(ex)
+      raise ValueError("Please provide a valid authentication token")
 
   def google_login(self, access_token):
     # Sending a req to google server
@@ -68,3 +85,12 @@ class Authentication:
     self.__delete_all_notes()
 
     return True
+  
+  def get_user(self, email):
+    return self.__get_user(email)
+  
+  def check_token(self, token):
+    # TODO: I will add more validation here
+    data = self.__parse_token(token)
+    
+    return True, data
