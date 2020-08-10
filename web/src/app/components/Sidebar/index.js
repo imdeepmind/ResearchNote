@@ -1,16 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Layout, Menu } from "antd";
 import { UserOutlined, CopyOutlined, PlusOutlined } from "@ant-design/icons";
+
+import NotesContext from "../../context/NotesContext";
 
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 
 const Sidebar = (props) => {
-  const { profile, notes } = props;
+  const notes = useContext(NotesContext);
+
+  const { allNotes } = notes["state"];
+  const { openNote, toggleNotesModal } = notes["funcs"]
+
+  const { profile } = props;
 
   const { name, logout, deleteAcc } = profile;
-  const { newNote, allNotes, openNote } = notes;
 
   return (
     <Sider width={250} className="site-layout-background">
@@ -25,7 +31,7 @@ const Sidebar = (props) => {
           overflowY: "scroll",
         }}
       >
-        <Menu.Item onClick={newNote}><PlusOutlined />New Note</Menu.Item>
+        <Menu.Item onClick={toggleNotesModal}><PlusOutlined />New Note</Menu.Item>
         <SubMenu key="notes" icon={<CopyOutlined />} title="Notes">
           {allNotes.map((val) => {
             return <Menu.Item key={val._id.$oid} onClick={openNote}>{val.title}</Menu.Item>;

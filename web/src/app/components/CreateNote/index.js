@@ -1,18 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Modal, Form, Input } from "antd";
 
-const CreateNote = (props) => {
+import NotesContext from "../../context/NotesContext";
+
+const CreateNote = () => {
+  const notes = useContext(NotesContext);
+
+  const { createNoteModal } = notes["state"];
+  const { toggleNotesModal, createNewNote } = notes["funcs"];
+
   const [title, setTitle] = useState("");
   const [open, setOpen] = useState(false);
-  const { state, closeModal, onSubmit } = props;
 
   useEffect(() => {
-    setOpen(state);
-  }, [state]);
+    setOpen(createNoteModal);
+  }, [createNoteModal]);
 
   const handleSubmit = async () => {
-    if (onSubmit) {
-      const result = await onSubmit({
+    if (createNewNote) {
+      const result = await createNewNote({
         title,
       });
     }
@@ -21,7 +27,7 @@ const CreateNote = (props) => {
 
   const modalClose = () => {
     setOpen((open) => false);
-    closeModal && closeModal();
+    toggleNotesModal && toggleNotesModal();
   };
 
   const onFieldChange = (value) => {
@@ -47,7 +53,10 @@ const CreateNote = (props) => {
             label="Note Name"
             name="name"
             rules={[
-              { required: true, message: "Please input name for the report" },
+              {
+                required: true,
+                message: "Please input name for the report",
+              },
             ]}
           >
             <Input />

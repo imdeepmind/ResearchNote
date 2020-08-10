@@ -5,21 +5,40 @@ import Editor from "../../components/Editor";
 import Sidebar from "../../components/Sidebar";
 import CreateNote from "../../components/CreateNote";
 
-import { createNote, getAllNotes } from "../../apis/notes.api";
+import {
+  createNote,
+  getAllNotes as getAllNotesAPI,
+} from "../../apis/notes.api";
 
-const App = () => {
+import { NotesProvider } from "../../context/NotesContext";
+
+const Notes = (props) => {
   const [createNoteModal, setCreateNoteModal] = useState(false);
-  const [notes, setNotes] = useState([]);
-  const [limit, setLimit] = useState(100);
+  const [allNotes, setAllNotes] = useState([]);
   const [lastId, setLastId] = useState(null);
+  const limit = 100;
 
-  const openNewNoteModal = () => {
-    setCreateNoteModal(true);
-  };
-
-  const closeNewNoteModal = () => {
-    console.log("asd")
-    setCreateNoteModal(false);
+  const notes = {
+    state: {
+      createNoteModal,
+      allNotes
+    },
+    funcs: {
+      toggleNotesModal: () => setCreateNoteModal((open) => !open),
+      getAllNotes: async () => {
+        const result = await getAllNotesAPI(limit, null);
+        // setLastId(result.data[result.data.length - 1]._id.$oid);
+        setAllNotes(result.data);
+      },
+      createNewNote: async (data) => {
+        const result = await createNote(data);
+        await notes.funcs.getAllNotes();
+        return result;
+      },
+      openNote: async (id) => {
+        props.history.push(`/notes/${id}`);
+      },
+    }
   };
 
   const deleteAcc = () => {
@@ -30,54 +49,31 @@ const App = () => {
     console.log("Logout Account");
   };
 
-  const newNote = async (data) => {
-    const result = await createNote(data);
-    await getNotes();
-    return result;
-  };
-
-  const openNote = ({ key }) => {
-    console.log("Opening page ", key);
-  };
-
-  const getNotes = async () => {
-    const result = await getAllNotes(limit, lastId);
-    setLastId(result.data[result.data.length - 1]._id.$oid);
-    setNotes(result.data);
-  };
-
   useEffect(() => {
-    getNotes();
+    notes.funcs.getAllNotes();
   }, []);
 
   return (
     <>
-      <Layout>
+      <NotesProvider value={notes}>
         <Layout>
-          <Sidebar
-            profile={{
-              name: "Abhishek Chatterjee",
-              logout,
-              deleteAcc,
-            }}
-            notes={{
-              newNote: openNewNoteModal,
-              allNotes: notes,
-              openNote,
-            }}
-          />
           <Layout>
-            <Editor />
+            <Sidebar
+              profile={{
+                name: "Abhishek Chatterjee",
+                logout,
+                deleteAcc,
+              }}
+            />
+            <Layout>
+              <Editor />
+            </Layout>
           </Layout>
         </Layout>
-      </Layout>
-      <CreateNote
-        state={createNoteModal}
-        onSubmit={newNote}
-        closeModal={closeNewNoteModal}
-      />
+        <CreateNote />
+      </NotesProvider>
     </>
   );
 };
 
-export default App;
+export default Notes;
