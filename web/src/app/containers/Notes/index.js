@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import {
   createNote,
   getAllNotes as getAllNotesAPI,
+  getNote as getNoteAPI,
+  editNote,
 } from "../../apis/notes.api";
 
 import { NotesProvider } from "../../context/NotesContext";
@@ -33,6 +35,14 @@ const Notes = (props) => {
       openNote: async ({key}) => {
         props.history.push(`/notes/${key}`);
       },
+      getNote: async (id) => {
+        const result = await getNoteAPI(id);
+        return result;
+      },
+      editNote: async (id, data) => {
+        const result = await editNote(id, data);
+        return result;
+      }
     }
   };
 
