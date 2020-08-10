@@ -1,8 +1,8 @@
 import Axios from "./axios.global";
 
-export const createNote = async (title) => {
+export const createNote = async (data) => {
   try {
-    const resp = await Axios.post("/notes/", { title });
+    const resp = await Axios.post("/notes/", data);
     return resp.data;
   } catch (error) {
     console.log("Network error: ", error);
