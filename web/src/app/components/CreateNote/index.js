@@ -11,19 +11,21 @@ const CreateNote = (props) => {
     setOpen(state);
   }, [state]);
 
-  const handleSubmit = async (data) => {
+  const handleSubmit = async () => {
     if (onSubmit) {
-      await onSubmit({
+      const result = await onSubmit({
         title,
       });
+
+      console.log(result);
     }
 
     toggle();
   };
 
   const onFieldChange = (value) => {
-    const fieldValue = value[0].value;
-    setTitle(fieldValue);
+    const fieldValue = value && value[0] && value[0].value;
+    fieldValue && setTitle(fieldValue);
   };
 
   return (

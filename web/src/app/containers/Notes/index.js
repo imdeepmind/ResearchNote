@@ -5,6 +5,8 @@ import Editor from "../../components/Editor";
 import Sidebar from "../../components/Sidebar";
 import CreateNote from "../../components/CreateNote";
 
+import { createNote } from "../../apis/notes.api";
+
 const App = () => {
   const deleteAcc = () => {
     console.log("Delete Account");
@@ -14,8 +16,9 @@ const App = () => {
     console.log("Logout Account");
   };
 
-  const newNote = () => {
-    console.log("New Note");
+  const newNote = async (data) => {
+    const result = await createNote(data);
+    return result;
   };
 
   const openNote = ({ key }) => {
@@ -40,7 +43,7 @@ const App = () => {
                   id: "note_id",
                 },
               ],
-              openNote,
+              openNote
             }}
           />
           <Layout>
@@ -48,7 +51,7 @@ const App = () => {
           </Layout>
         </Layout>
       </Layout>
-      <CreateNote state={true} />
+      <CreateNote state={true} onSubmit={newNote} />
     </>
   );
 };
