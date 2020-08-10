@@ -1,31 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Modal, Form, Input } from "antd";
 
-const CreateNote = (props) => {
+import NotesContext from "../../context/NotesContext";
+
+const CreateNote = () => {
+  const notes = useContext(NotesContext);
+
+  const { createNoteModal } = notes["state"];
+  const { toggleNotesModal, createNewNote } = notes["funcs"];
+
   const [title, setTitle] = useState("");
   const [open, setOpen] = useState(false);
-  const { state, onSubmit } = props;
-  const toggle = () => setOpen((open) => !open);
 
   useEffect(() => {
-    setOpen(state);
-  }, [state]);
+    setOpen(createNoteModal);
+  }, [createNoteModal]);
 
-  const handleSubmit = async (data) => {
-    console.log(data);
-    if (onSubmit) {
-      await onSubmit({
+  const handleSubmit = async () => {
+    if (createNewNote) {
+      const result = await createNewNote({
         title,
       });
     }
+    modalClose();
+  };
 
-    toggle();
+  const modalClose = () => {
+    setOpen((open) => false);
+    toggleNotesModal && toggleNotesModal();
   };
 
   const onFieldChange = (value) => {
-    console.log(value)
-    const fieldValue = value[0].value;
-    setTitle(fieldValue);
+    const fieldValue = value && value[0] && value[0].value;
+    fieldValue && setTitle(fieldValue);
   };
 
   return (
@@ -34,7 +41,7 @@ const CreateNote = (props) => {
         title="Create a new note"
         visible={open}
         onOk={handleSubmit}
-        onCancel={toggle}
+        onCancel={modalClose}
         okText={"Create"}
       >
         <Form
@@ -46,7 +53,10 @@ const CreateNote = (props) => {
             label="Note Name"
             name="name"
             rules={[
-              { required: true, message: "Please input name for the report" },
+              {
+                required: true,
+                message: "Please input name for the report",
+              },
             ]}
           >
             <Input />
