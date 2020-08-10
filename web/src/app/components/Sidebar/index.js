@@ -28,7 +28,7 @@ const Sidebar = (props) => {
         <Menu.Item onClick={newNote}><PlusOutlined />New Note</Menu.Item>
         <SubMenu key="notes" icon={<CopyOutlined />} title="Notes">
           {allNotes.map((val) => {
-            return <Menu.Item key={val.id} onClick={openNote}>{val.title}</Menu.Item>;
+            return <Menu.Item key={val._id.$oid} onClick={openNote}>{val.title}</Menu.Item>;
           })}
         </SubMenu>
         <SubMenu key="account" icon={<UserOutlined />} title={name}>

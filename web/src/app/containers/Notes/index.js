@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Layout } from "antd";
 
 import Editor from "../../components/Editor";
 import Sidebar from "../../components/Sidebar";
 import CreateNote from "../../components/CreateNote";
 
-import { createNote } from "../../apis/notes.api";
+import { createNote, getAllNotes } from "../../apis/notes.api";
 
 const App = () => {
+  const [createNoteModal, setCreateNoteModal] = useState(false);
+  const [notes, setNotes] = useState([]);
+  const [limit, setLimit] = useState(100);
+  const [lastId, setLastId] = useState(null);
+
   const deleteAcc = () => {
     console.log("Delete Account");
   };
@@ -25,6 +30,17 @@ const App = () => {
     console.log("Opening page ", key);
   };
 
+  const getNotes = async () => {
+    const result = await getAllNotes(limit, lastId);
+
+    console.log(result.data);
+    setNotes(result.data);
+  };
+
+  useEffect(() => {
+    getNotes();
+  }, []);
+
   return (
     <>
       <Layout>
@@ -37,13 +53,8 @@ const App = () => {
             }}
             notes={{
               newNote,
-              allNotes: [
-                {
-                  title: "Test Note",
-                  id: "note_id",
-                },
-              ],
-              openNote
+              allNotes: notes,
+              openNote,
             }}
           />
           <Layout>
