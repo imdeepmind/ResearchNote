@@ -13,6 +13,15 @@ const App = () => {
   const [limit, setLimit] = useState(100);
   const [lastId, setLastId] = useState(null);
 
+  const openNewNoteModal = () => {
+    setCreateNoteModal(true);
+  };
+
+  const closeNewNoteModal = () => {
+    console.log("asd")
+    setCreateNoteModal(false);
+  };
+
   const deleteAcc = () => {
     console.log("Delete Account");
   };
@@ -23,6 +32,7 @@ const App = () => {
 
   const newNote = async (data) => {
     const result = await createNote(data);
+    await getNotes();
     return result;
   };
 
@@ -32,8 +42,7 @@ const App = () => {
 
   const getNotes = async () => {
     const result = await getAllNotes(limit, lastId);
-
-    console.log(result.data);
+    setLastId(result.data[result.data.length - 1]._id.$oid);
     setNotes(result.data);
   };
 
@@ -52,7 +61,7 @@ const App = () => {
               deleteAcc,
             }}
             notes={{
-              newNote,
+              newNote: openNewNoteModal,
               allNotes: notes,
               openNote,
             }}
@@ -62,7 +71,11 @@ const App = () => {
           </Layout>
         </Layout>
       </Layout>
-      <CreateNote state={true} onSubmit={newNote} />
+      <CreateNote
+        state={createNoteModal}
+        onSubmit={newNote}
+        closeModal={closeNewNoteModal}
+      />
     </>
   );
 };

@@ -4,8 +4,7 @@ import { Modal, Form, Input } from "antd";
 const CreateNote = (props) => {
   const [title, setTitle] = useState("");
   const [open, setOpen] = useState(false);
-  const { state, onSubmit } = props;
-  const toggle = () => setOpen((open) => !open);
+  const { state, closeModal, onSubmit } = props;
 
   useEffect(() => {
     setOpen(state);
@@ -16,11 +15,13 @@ const CreateNote = (props) => {
       const result = await onSubmit({
         title,
       });
-
-      console.log(result);
     }
+    modalClose();
+  };
 
-    toggle();
+  const modalClose = () => {
+    setOpen((open) => false);
+    closeModal && closeModal();
   };
 
   const onFieldChange = (value) => {
@@ -34,7 +35,7 @@ const CreateNote = (props) => {
         title="Create a new note"
         visible={open}
         onOk={handleSubmit}
-        onCancel={toggle}
+        onCancel={modalClose}
         okText={"Create"}
       >
         <Form
