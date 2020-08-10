@@ -1,9 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Layout } from "antd";
-
-import Editor from "../../components/Editor";
-import Sidebar from "../../components/Sidebar";
-import CreateNote from "../../components/CreateNote";
 
 import {
   createNote,
@@ -11,6 +6,7 @@ import {
 } from "../../apis/notes.api";
 
 import { NotesProvider } from "../../context/NotesContext";
+import Widget from "./Widget";
 
 const Notes = (props) => {
   const [createNoteModal, setCreateNoteModal] = useState(false);
@@ -35,18 +31,10 @@ const Notes = (props) => {
         await notes.funcs.getAllNotes();
         return result;
       },
-      openNote: async (id) => {
-        props.history.push(`/notes/${id}`);
+      openNote: async ({key}) => {
+        props.history.push(`/notes/${key}`);
       },
     }
-  };
-
-  const deleteAcc = () => {
-    console.log("Delete Account");
-  };
-
-  const logout = () => {
-    console.log("Logout Account");
   };
 
   useEffect(() => {
@@ -54,25 +42,11 @@ const Notes = (props) => {
   }, []);
 
   return (
-    <>
-      <NotesProvider value={notes}>
-        <Layout>
-          <Layout>
-            <Sidebar
-              profile={{
-                name: "Abhishek Chatterjee",
-                logout,
-                deleteAcc,
-              }}
-            />
-            <Layout>
-              <Editor />
-            </Layout>
-          </Layout>
-        </Layout>
-        <CreateNote />
-      </NotesProvider>
-    </>
+    <NotesProvider value={notes}>
+      <Widget profile={{
+        name: "Abhishek"
+      }} />
+    </NotesProvider>
   );
 };
 
