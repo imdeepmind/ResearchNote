@@ -12,7 +12,6 @@ const CreateNote = (props) => {
   }, [state]);
 
   const handleSubmit = async (data) => {
-    console.log(data);
     if (onSubmit) {
       await onSubmit({
         title,
@@ -23,7 +22,6 @@ const CreateNote = (props) => {
   };
 
   const onFieldChange = (value) => {
-    console.log(value)
     const fieldValue = value[0].value;
     setTitle(fieldValue);
   };
