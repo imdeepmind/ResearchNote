@@ -11,7 +11,6 @@ import Widget from "./Widget";
 const Notes = (props) => {
   const [createNoteModal, setCreateNoteModal] = useState(false);
   const [allNotes, setAllNotes] = useState([]);
-  const [lastId, setLastId] = useState(null);
   const limit = 100;
 
   const notes = {

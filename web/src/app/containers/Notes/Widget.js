@@ -5,6 +5,9 @@ import Editor from "../../components/Editor";
 import Sidebar from "../../components/Sidebar";
 import CreateNote from "../../components/CreateNote";
 
+import { Route } from "react-router-dom";
+import Welcome from "../../components/Welcome";
+
 const Widget = (props) => {
   return (
     <>
@@ -12,7 +15,8 @@ const Widget = (props) => {
         <Layout>
           <Sidebar profile={props.profile} />
           <Layout>
-            <Editor />
+            <Route path="/notes/" exact component={Welcome} />
+            <Route path="/notes/:id" component={Editor} />
           </Layout>
         </Layout>
       </Layout>

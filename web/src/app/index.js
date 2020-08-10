@@ -28,6 +28,7 @@ const App = () => {
       <Switch>
         <Route path="/" exact component={Home} />
         <ProtectedRoute path="/notes" exact component={Notes} />
+        <ProtectedRoute path="/notes/:id" exact component={Notes} />
       </Switch>
     </Router>
   );
