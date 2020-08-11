@@ -15,7 +15,7 @@ const Widget = () => {
       <Layout>
         <Layout>
           <Sidebar />
-          <Layout>
+          <Layout style={{paddingLeft: 80}}>
             <Route path="/notes/" exact component={Welcome} />
             <Route path="/notes/:id" component={Editor} />
           </Layout>
