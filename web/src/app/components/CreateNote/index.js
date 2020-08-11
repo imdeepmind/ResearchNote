@@ -11,18 +11,21 @@ const CreateNote = () => {
 
   const [title, setTitle] = useState("");
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setOpen(createNoteModal);
   }, [createNoteModal]);
 
   const handleSubmit = async () => {
+    setLoading(true);
     if (createNewNote) {
       const result = await createNewNote({
         title,
       });
     }
     modalClose();
+    setLoading(false);
   };
 
   const modalClose = () => {
@@ -43,6 +46,7 @@ const CreateNote = () => {
         onOk={handleSubmit}
         onCancel={modalClose}
         okText={"Create"}
+        confirmLoading={loading}
       >
         <Form
           name="create_note"
