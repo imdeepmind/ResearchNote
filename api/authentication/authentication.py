@@ -24,7 +24,8 @@ class Authentication:
     return self.collection.find_one_and_delete({'email': email})
   
   def __delete_all_notes(self, email):
-    return Notes.find_one_and_delete({'email': email})
+    print("HI")
+    return Notes.delete_many({'email': email})
   
   def __set_user(self, email, data):
     return self.collection.find_one_and_update({'email': email}, {'$set': data}, upsert=True)
