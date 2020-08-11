@@ -15,8 +15,9 @@ const Editor = (props) => {
   const [content, setContent] = useState({});
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
-  const { getNote, editNote } = notes["funcs"];
+  const { getNote, editNote, deleteNote } = notes["funcs"];
 
   const editNoteDebounced = AwesomeDebouncePromise(editNote, 3000);
 
@@ -46,6 +47,15 @@ const Editor = (props) => {
     setSaving(false);
   };
 
+  const noteDelete = async () => {
+    setDeleteLoading(true);
+    if (deleteNote) {
+      const id = props.match.params.id;
+      await deleteNote(id);
+    }
+    setDeleteLoading(false);
+  };
+
   if (loading) {
     return <h1>Loading...</h1>;
   }
@@ -57,7 +67,12 @@ const Editor = (props) => {
         <Text>{saving ? "Syncing" : "Synced"}</Text>
       </div>
       <div style={{ position: "absolute", bottom: 10, right: 30 }}>
-        <Button size="large" icon={<DeleteOutlined />} />
+        <Button
+          size="large"
+          icon={<DeleteOutlined />}
+          loading={deleteLoading}
+          onClick={noteDelete}
+        />
       </div>
     </>
   );
