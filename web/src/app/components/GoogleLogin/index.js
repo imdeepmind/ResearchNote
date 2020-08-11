@@ -1,5 +1,6 @@
 import React from "react";
 import GoogleLogin from "react-google-login";
+import { Button } from 'antd';
 
 import { googleLogin } from "../../apis/auth.api";
 
@@ -21,6 +22,9 @@ const GoogleLoginButton = props => {
       onSuccess={responseGoogle}
       onFailure={responseGoogle}
       cookiePolicy={"single_host_origin"}
+      render={renderProps => (
+        <Button type="primary" size="large" onClick={renderProps.onClick} disabled={renderProps.disabled} style={{margin: 20, width: 200}}>Get Started</Button>
+      )}
     />
   );
 };
