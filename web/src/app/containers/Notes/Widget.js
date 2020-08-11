@@ -11,11 +11,11 @@ import Welcome from "../../components/Welcome";
 
 const { Content } = Layout;
 
-const Widget = () => {
+const Widget = (props) => {
   return (
     <>
       <Layout style={{ minHeight: '100vh' }}>
-        <Sidebar />
+        <Sidebar match={props.match}/>
         <Layout className="site-layout">
           <Content>
             <Route path="/notes/" exact component={Welcome} />

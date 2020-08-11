@@ -83,7 +83,7 @@ const Notes = (props) => {
   return (
     <NotesProvider value={notes}>
       <UserProvider value={user}>
-        <Widget />
+        <Widget match={props.match}/>
       </UserProvider>
     </NotesProvider>
   );

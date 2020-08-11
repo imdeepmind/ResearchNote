@@ -23,6 +23,8 @@ const Sidebar = (props) => {
 
   const [visible, setVisible] = useState(false);
 
+  const id = props.match.params.id;
+
   return (
     <Sider
       collapsible
@@ -37,7 +39,7 @@ const Sidebar = (props) => {
       <Menu
         mode="inline"
         theme="dark"
-        defaultSelectedKeys={["1"]}
+        defaultSelectedKeys={["notes", `${id}`]}
         defaultOpenKeys={["notes"]}
       >
         <Menu.Item onClick={toggleNotesModal} icon={<PlusOutlined />}>
