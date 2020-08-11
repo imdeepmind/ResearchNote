@@ -1,19 +1,20 @@
 import React from "react";
 import { Layout } from "antd";
+import { Route } from "react-router-dom";
 
 import Editor from "../../components/Editor";
 import Sidebar from "../../components/Sidebar";
 import CreateNote from "../../components/CreateNote";
+import DeleteWarning from "../../components/DeleteWarning";
 
-import { Route } from "react-router-dom";
 import Welcome from "../../components/Welcome";
 
-const Widget = (props) => {
+const Widget = () => {
   return (
     <>
       <Layout>
         <Layout>
-          <Sidebar profile={props.profile} />
+          <Sidebar />
           <Layout>
             <Route path="/notes/" exact component={Welcome} />
             <Route path="/notes/:id" component={Editor} />
@@ -21,6 +22,7 @@ const Widget = (props) => {
         </Layout>
       </Layout>
       <CreateNote />
+      <DeleteWarning />
     </>
   );
 };
