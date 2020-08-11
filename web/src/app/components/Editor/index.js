@@ -1,6 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
 
+import { Button } from "antd";
+import { DeleteOutlined, MenuOutlined } from "@ant-design/icons";
+
 import EditorPad from "./Editor";
 import NotesContext from "../../context/NotesContext";
 
@@ -30,23 +33,29 @@ const Editor = (props) => {
   const handleChange = async (raw) => {
     const data = {
       title: content.title,
-      content: raw
-    }
+      content: raw,
+    };
 
     const id = props.match.params.id;
 
     const result = await editNoteDebounced(id, data);
-
-    console.log(result);
   };
 
-  console.log(content.content)
-
   if (loading) {
-    return <h1>Loading...</h1>
+    return <h1>Loading...</h1>;
   }
 
-  return <EditorPad initialValue={content.content} onChange={handleChange} />;
+  return (
+    <>
+      <EditorPad
+        initialValue={content.content}
+        onChange={handleChange}
+      />
+      <div style={{ position: "absolute", top: 10, right: 10 }}>
+        <Button icon={<DeleteOutlined />} />
+      </div>
+    </>
+  );
 };
 
 export default Editor;

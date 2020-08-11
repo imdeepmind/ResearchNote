@@ -8,15 +8,15 @@ import {
   convertFromRaw,
 } from "draft-js";
 
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+
 import "./RichEditor.css";
 
 class Editor extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log(this.props.initialValue);
     if (this.props.initialValue) {
-      console.log("herhe")
       this.state = {
         editorState: EditorState.createWithContent(
           convertFromRaw(JSON.parse(this.props.initialValue))
@@ -89,31 +89,36 @@ class Editor extends React.Component {
         className += " RichEditor-hidePlaceholder";
       }
     }
-
     return (
-      <div className="RichEditor-root">
-        <BlockStyleControls
-          editorState={editorState}
-          onToggle={this.toggleBlockType}
-        />
-        <InlineStyleControls
-          editorState={editorState}
-          onToggle={this.toggleInlineStyle}
-        />
-        <div className={className} onClick={this.focus}>
-          <DraftEditor
-            blockStyleFn={getBlockStyle}
-            customStyleMap={styleMap}
+      <>
+        <ContextMenuTrigger id="options">
+          <div className="RichEditor-root">
+            <div className={className} onClick={this.focus}>
+              <DraftEditor
+                blockStyleFn={getBlockStyle}
+                customStyleMap={styleMap}
+                editorState={editorState}
+                handleKeyCommand={this.handleKeyCommand}
+                keyBindingFn={this.mapKeyToEditorCommand}
+                onChange={this.onChange}
+                placeholder="Type something..."
+                ref="editor"
+                spellCheck={true}
+              />
+            </div>
+          </div>
+        </ContextMenuTrigger>
+        <ContextMenu id="options">
+          <BlockStyleControls
             editorState={editorState}
-            handleKeyCommand={this.handleKeyCommand}
-            keyBindingFn={this.mapKeyToEditorCommand}
-            onChange={this.onChange}
-            placeholder="Type something..."
-            ref="editor"
-            spellCheck={true}
+            onToggle={this.toggleBlockType}
           />
-        </div>
-      </div>
+          <InlineStyleControls
+            editorState={editorState}
+            onToggle={this.toggleInlineStyle}
+          />
+        </ContextMenu>
+      </>
     );
   }
 }
