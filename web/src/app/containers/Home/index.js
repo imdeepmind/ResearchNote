@@ -2,7 +2,7 @@ import React from "react";
 import { Typography } from "antd";
 import GoogleLoginButton from "../../components/GoogleLogin";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const Home = (props) => {
   if (localStorage.getItem("id_token")) {
