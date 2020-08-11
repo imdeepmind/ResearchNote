@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import { Layout, Menu } from "antd";
 import { UserOutlined, CopyOutlined, PlusOutlined } from "@ant-design/icons";
@@ -19,21 +19,27 @@ const Sidebar = (props) => {
   const { profile } = user["state"];
   const { toggleDeleteWarningModal, logout } = user["funcs"];
 
+  const [visible, setVisible] = useState(true);
+
   return (
-    <Sider width={250} className="site-layout-background">
+    <Sider
+      collapsible
+      collapsed={visible}
+      onCollapse={() => setVisible((visible) => !visible)}
+      style={{
+        overflow: "auto",
+        height: "100vh",
+        position: "fixed",
+        left: 0,
+      }}
+    >
       <Menu
         mode="inline"
+        theme="dark"
         defaultSelectedKeys={["1"]}
         defaultOpenKeys={["notes"]}
-        style={{
-          height: "100vh",
-          borderRight: 0,
-          overflow: "hidden",
-          overflowY: "scroll",
-        }}
       >
-        <Menu.Item onClick={toggleNotesModal}>
-          <PlusOutlined />
+        <Menu.Item onClick={toggleNotesModal} icon={<PlusOutlined />}>
           New Note
         </Menu.Item>
         <SubMenu key="notes" icon={<CopyOutlined />} title="Notes">
