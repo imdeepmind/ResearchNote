@@ -19,7 +19,7 @@ const Sidebar = (props) => {
   const { profile } = user["state"];
   const { toggleDeleteWarningModal, logout } = user["funcs"];
 
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   return (
     <Sider
@@ -29,7 +29,6 @@ const Sidebar = (props) => {
       style={{
         overflow: "auto",
         height: "100vh",
-        position: "fixed",
         left: 0,
       }}
     >

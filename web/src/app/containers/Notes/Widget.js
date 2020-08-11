@@ -9,16 +9,18 @@ import DeleteWarning from "../../components/DeleteWarning";
 
 import Welcome from "../../components/Welcome";
 
+const { Content } = Layout;
+
 const Widget = () => {
   return (
     <>
-      <Layout>
-        <Layout>
-          <Sidebar />
-          <Layout style={{paddingLeft: 80}}>
+      <Layout style={{ minHeight: '100vh' }}>
+        <Sidebar />
+        <Layout className="site-layout">
+          <Content>
             <Route path="/notes/" exact component={Welcome} />
             <Route path="/notes/:id" component={Editor} />
-          </Layout>
+          </Content>
         </Layout>
       </Layout>
       <CreateNote />
