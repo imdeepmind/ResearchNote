@@ -3,6 +3,8 @@ import React, { useContext, useState } from "react";
 import { Layout, Menu } from "antd";
 import { UserOutlined, CopyOutlined, PlusOutlined } from "@ant-design/icons";
 
+import { Link } from "react-router-dom";
+
 import NotesContext from "../../context/NotesContext";
 import UserContent from "../../context/UserContext";
 
@@ -44,8 +46,10 @@ const Sidebar = (props) => {
         <SubMenu key="notes" icon={<CopyOutlined />} title="Notes">
           {allNotes.map((val) => {
             return (
-              <Menu.Item key={val._id.$oid} onClick={openNote}>
-                {val.title}
+              <Menu.Item key={val._id.$oid}>
+                <Link to={`/notes/${val._id.$oid}`} key={val._id.$oid}>
+                  {val.title}
+                </Link>
               </Menu.Item>
             );
           })}

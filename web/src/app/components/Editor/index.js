@@ -12,6 +12,7 @@ const { Text } = Typography;
 const Editor = (props) => {
   const notes = useContext(NotesContext);
 
+  const id = props.match.params.id;
   const [content, setContent] = useState({});
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -24,7 +25,6 @@ const Editor = (props) => {
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
-      const id = props.match.params.id;
       const result = await getNote(id);
 
       setContent(result.data);
@@ -32,7 +32,7 @@ const Editor = (props) => {
     };
 
     loadData();
-  }, []);
+  }, [id]);
 
   const handleChange = async (raw) => {
     setSaving(true);
@@ -40,8 +40,6 @@ const Editor = (props) => {
       title: content.title,
       content: raw,
     };
-
-    const id = props.match.params.id;
 
     const result = await editNoteDebounced(id, data);
     setSaving(false);
