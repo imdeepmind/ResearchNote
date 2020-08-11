@@ -2,11 +2,12 @@ import requests
 import jwt
 from os import getenv
 from json import loads
+from time import time
+from pymongo.collection import ReturnDocument
 
 from db import Users, Notes
 from utils import logger
 
-from time import time
 
 class Authentication:
   def __init__(self):
@@ -24,11 +25,10 @@ class Authentication:
     return self.collection.find_one_and_delete({'email': email})
   
   def __delete_all_notes(self, email):
-    print("HI")
     return Notes.delete_many({'email': email})
   
   def __set_user(self, email, data):
-    return self.collection.find_one_and_update({'email': email}, {'$set': data}, upsert=True)
+    return self.collection.find_one_and_update({'email': email}, {'$set': data}, upsert=True, return_document=ReturnDocument.AFTER)
   
   def __get_user(self, email):
     return self.collection.find_one({'email': email}, {

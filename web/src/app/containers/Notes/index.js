@@ -31,7 +31,8 @@ const Notes = (props) => {
       getAllNotes: async () => {
         const result = await getAllNotesAPI(limit, null);
         // setLastId(result.data[result.data.length - 1]._id.$oid);
-        setAllNotes(result.data);
+        if (result.data) setAllNotes(result.data);
+        else setAllNotes([]);
       },
       createNewNote: async (data) => {
         const result = await createNote(data);
