@@ -109,14 +109,16 @@ class Editor extends React.Component {
           </div>
         </ContextMenuTrigger>
         <ContextMenu id="options">
-          <BlockStyleControls
-            editorState={editorState}
-            onToggle={this.toggleBlockType}
-          />
-          <InlineStyleControls
-            editorState={editorState}
-            onToggle={this.toggleInlineStyle}
-          />
+          <div className="RichEditor-controls-parent">
+            <BlockStyleControls
+              editorState={editorState}
+              onToggle={this.toggleBlockType}
+            />
+            <InlineStyleControls
+              editorState={editorState}
+              onToggle={this.toggleInlineStyle}
+            />
+          </div>
         </ContextMenu>
       </>
     );
