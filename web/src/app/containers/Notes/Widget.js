@@ -5,7 +5,6 @@ import { Route } from "react-router-dom";
 import Editor from "../../components/Editor";
 import Sidebar from "../../components/Sidebar";
 import CreateNote from "../../components/CreateNote";
-import DeleteWarning from "../../components/DeleteWarning";
 import SearchAllNotesModal from "../../components/SearchModal";
 import Welcome from "../../components/Welcome";
 
@@ -24,7 +23,6 @@ const Widget = (props) => {
         </Layout>
       </Layout>
       <CreateNote />
-      <DeleteWarning />
       <SearchAllNotesModal />
     </>
   );

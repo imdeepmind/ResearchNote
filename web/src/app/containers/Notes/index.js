@@ -17,7 +17,6 @@ import Widget from "./Widget";
 
 const Notes = (props) => {
   const [createNoteModal, setCreateNoteModal] = useState(false);
-  const [deleteWarningModal, setDeleteWarningModal] = useState(false);
   const [searchModal, setSearchModal] = useState(false);
   const [allNotes, setAllNotes] = useState([]);
   const [profile, setProfile] = useState({});
@@ -64,10 +63,8 @@ const Notes = (props) => {
   const user = {
     state: {
       profile,
-      deleteWarningModal,
     },
     funcs: {
-      toggleDeleteWarningModal: () => setDeleteWarningModal((open) => !open),
       getProfile: async () => {
         const result = await getProfile();
         setProfile(result.data);
