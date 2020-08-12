@@ -15,13 +15,16 @@ import { NotesProvider } from "../../context/NotesContext";
 import { UserProvider } from "../../context/UserContext";
 
 import Widget from "./Widget";
+import { confirmDialog } from "../../components/Dialogs";
+
+const isValidCode = (code) => code / 200 >= 1 && code / 200 < 2;
 
 const Notes = (props) => {
   const [createNoteModal, setCreateNoteModal] = useState(false);
   const [searchModal, setSearchModal] = useState(false);
   const [allNotes, setAllNotes] = useState([]);
   const [profile, setProfile] = useState({});
-  const limit = 100;
+  const [error, setError] = useState(null);
 
   const notes = {
     state: {
@@ -33,36 +36,78 @@ const Notes = (props) => {
       toggleNotesModal: () => setCreateNoteModal((open) => !open),
       searchNotesModal: () => setSearchModal((open) => !open),
       getAllNotes: async () => {
-        const result = await getAllNotesAPI(limit, null);
-        // setLastId(result.data[result.data.length - 1]._id.$oid);
-        if (result.data) setAllNotes(result.data);
-        else setAllNotes([]);
+        setError(null);
+        const result = await getAllNotesAPI(30, null);
+        if (result && isValidCode(result.statusCode)) {
+          setAllNotes(result.data || []);
+          return result;
+        }
+        setError(
+          result && result.message
+            ? result.message
+            : "Can not load the list of notes"
+        );
       },
       createNewNote: async (data) => {
+        setError(null);
         const result = await createNote(data);
         await notes.funcs.getAllNotes();
-        return result;
+        if (result && isValidCode(result.statusCode)) {
+          return result;
+        }
+        setError(
+          result && result.message
+            ? result.message
+            : "Can not create the new note"
+        );
       },
       openNote: async ({ key }) => {
         props.history.push(`/notes/${key}`);
       },
       getNote: async (id) => {
+        console.log("hihih")
+        setError(null);
         const result = await getNoteAPI(id);
-        return result;
+        if (result && isValidCode(result.statusCode)) {
+          return result;
+        }
+        setError(
+          result && result.message ? result.message : "Can not load the note"
+        );
       },
       editNote: async (id, data) => {
+        setError(null);
         const result = await editNote(id, data);
-        return result;
+        if (result && isValidCode(result.statusCode)) {
+          return result;
+        }
+        setError(
+          result && result.message
+            ? result.message
+            : "Can not save the edited note"
+        );
       },
       searchNotes: async (key) => {
+        setError(null);
         const result = await searchNotes(key);
-        return result;
+        if (result && isValidCode(result.statusCode)) {
+          return result;
+        }
+        setError(
+          result && result.message ? result.message : "Can not search the notes"
+        );
       },
       deleteNote: async (key) => {
+        setError(null);
         const result = await deleteNote(key);
-        await notes.funcs.getAllNotes();
-        props.history.push(`/notes/`);
-        return result;
+        if (result && isValidCode(result.statusCode)) {
+          await notes.funcs.getAllNotes();
+          props.history.push(`/notes/`);
+          return result;
+        }
+        setError(
+          result && result.message ? result.message : "Can not delete the note"
+        );
       },
     },
   };
@@ -73,16 +118,34 @@ const Notes = (props) => {
     },
     funcs: {
       getProfile: async () => {
+        setError(null);
         const result = await getProfile();
-        setProfile(result.data);
+        if (result && isValidCode(result.statusCode)) {
+          await setProfile(result.data);
+          return result;
+        }
+        setError(
+          result && result.message
+            ? result.message
+            : "Can not load the profile data"
+        );
       },
       logout: () => {
         localStorage.removeItem("id_token");
         props.history.push(`/`);
       },
       deleteAccount: async () => {
-        await deleteProfile();
-        user.funcs.logout();
+        setError(null);
+        const result = await deleteProfile();
+        if (result && isValidCode(result.statusCode)) {
+          user.funcs.logout();
+          return result;
+        }
+        setError(
+          result && result.message
+            ? result.message
+            : "Can not delete the account"
+        );
       },
     },
   };
@@ -92,7 +155,10 @@ const Notes = (props) => {
     user.funcs.getProfile();
   }, []);
 
-  console.log(searchModal);
+  if (error) {
+    confirmDialog("Oops", error, null);
+    setError(null);
+  }
 
   return (
     <NotesProvider value={notes}>
