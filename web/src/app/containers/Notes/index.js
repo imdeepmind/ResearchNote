@@ -6,6 +6,7 @@ import {
   getNote as getNoteAPI,
   editNote,
   searchNotes,
+  deleteNote,
 } from "../../apis/notes.api";
 
 import { getProfile, deleteProfile } from "../../apis/auth.api";
@@ -56,7 +57,13 @@ const Notes = (props) => {
       searchNotes: async (key) => {
         const result = await searchNotes(key);
         return result;
-      }
+      },
+      deleteNote: async (key) => {
+        const result = await deleteNote(key);
+        await notes.funcs.getAllNotes();
+        props.history.push(`/notes/`);
+        return result;
+      },
     },
   };
 
@@ -85,12 +92,12 @@ const Notes = (props) => {
     user.funcs.getProfile();
   }, []);
 
-  console.log(searchModal)
+  console.log(searchModal);
 
   return (
     <NotesProvider value={notes}>
       <UserProvider value={user}>
-        <Widget match={props.match}/>
+        <Widget match={props.match} />
       </UserProvider>
     </NotesProvider>
   );

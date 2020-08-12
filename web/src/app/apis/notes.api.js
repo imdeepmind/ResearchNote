@@ -51,3 +51,13 @@ export const searchNotes = async (key) => {
     return error && error.response ? error.response.data : error;
   }
 }
+
+export const deleteNote = async (id) => {
+  try {
+    const resp = await Axios.delete("/notes/" + id);
+    return resp.data;
+  } catch (error) {
+    console.log("Network error: ", error);
+    return error && error.response ? error.response.data : error;
+  }
+}

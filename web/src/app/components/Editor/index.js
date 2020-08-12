@@ -6,6 +6,7 @@ import { DeleteOutlined, MenuOutlined } from "@ant-design/icons";
 
 import EditorPad from "./Editor";
 import NotesContext from "../../context/NotesContext";
+import { deleteDialog } from "../Dialogs";
 
 const { Text } = Typography;
 
@@ -16,7 +17,6 @@ const Editor = (props) => {
   const [content, setContent] = useState({});
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const { getNote, editNote, deleteNote } = notes["funcs"];
 
@@ -45,15 +45,6 @@ const Editor = (props) => {
     setSaving(false);
   };
 
-  const noteDelete = async () => {
-    setDeleteLoading(true);
-    if (deleteNote) {
-      const id = props.match.params.id;
-      await deleteNote(id);
-    }
-    setDeleteLoading(false);
-  };
-
   if (loading) {
     return <h1>Loading...</h1>;
   }
@@ -68,8 +59,13 @@ const Editor = (props) => {
         <Button
           size="large"
           icon={<DeleteOutlined />}
-          loading={deleteLoading}
-          onClick={noteDelete}
+          onClick={() =>
+            deleteDialog(
+              "Do you want to delete this note?",
+              "There is no way to reverse the action",
+              async () => deleteNote(id)
+            )
+          }
         />
       </div>
     </>
