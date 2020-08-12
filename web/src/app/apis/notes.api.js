@@ -6,7 +6,7 @@ export const createNote = async (data) => {
     return resp.data;
   } catch (error) {
     console.log("Network error: ", error);
-    return error.response.data;
+    return error && error.response ? error.response.data : error;
   }
 };
 
@@ -16,7 +16,7 @@ export const editNote = async (id, data) => {
     return resp.data;
   } catch (error) {
     console.log("Network error: ", error);
-    return error.response.data;
+    return error && error.response ? error.response.data : error;
   }
 };
 
@@ -28,7 +28,7 @@ export const getAllNotes = async (limit, last_id) => {
     return resp.data;
   } catch (error) {
     console.log("Network error: ", error);
-    return error.response.data;
+    return error && error.response ? error.response.data : error;
   }
 };
 
@@ -38,7 +38,7 @@ export const getNote = async (id) => {
     return resp.data;
   } catch (error) {
     console.log("Network error: ", error);
-    return error.response.data;
+    return error && error.response ? error.response.data : error;
   }
 };
 
@@ -48,6 +48,6 @@ export const searchNotes = async (key) => {
     return resp.data;
   } catch (error) {
     console.log("Network error: ", error);
-    return error.response.data;
+    return error && error.response ? error.response.data : error;
   }
 }

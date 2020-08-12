@@ -13,14 +13,23 @@ const DeleteWarning = () => {
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async () => {
     setLoading(true);
+    setError(null);
     if (deleteAccount) {
       const result = await deleteAccount();
+      if (result.statusCode === 204) {
+        setError(null);
+        modalClose();
+      } else {
+        setError(
+          result.message ? result.message : "Not able to delete the account"
+        );
+      }
     }
     setLoading(false);
-    modalClose();
   };
 
   const modalClose = () => {
@@ -31,6 +40,7 @@ const DeleteWarning = () => {
   useEffect(() => {
     setOpen(deleteWarningModal);
   });
+
   return (
     <>
       <Modal

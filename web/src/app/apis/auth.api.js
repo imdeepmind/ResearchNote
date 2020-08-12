@@ -6,7 +6,7 @@ export const googleLogin = async (token) => {
     return resp.data;
   } catch (error) {
     console.log("Network error: ", error);
-    return error.response.data;
+    return error && error.response ? error.response.data : error;
   }
 };
 
@@ -16,7 +16,7 @@ export const getProfile = async () => {
     return resp.data;
   } catch (error) {
     console.log("Network error: ", error);
-    return error.response.data;
+    return error && error.response ? error.response.data : error;
   }
 };
 
@@ -26,6 +26,6 @@ export const deleteProfile = async () => {
     return resp.data;
   } catch (error) {
     console.log("Network error: ", error);
-    return error.response.data;
+    return error && error.response ? error.response.data : error;
   }
 };
