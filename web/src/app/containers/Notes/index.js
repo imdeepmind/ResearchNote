@@ -5,6 +5,7 @@ import {
   getAllNotes as getAllNotesAPI,
   getNote as getNoteAPI,
   editNote,
+  searchNotes,
 } from "../../apis/notes.api";
 
 import { getProfile, deleteProfile } from "../../apis/auth.api";
@@ -17,6 +18,7 @@ import Widget from "./Widget";
 const Notes = (props) => {
   const [createNoteModal, setCreateNoteModal] = useState(false);
   const [deleteWarningModal, setDeleteWarningModal] = useState(false);
+  const [searchModal, setSearchModal] = useState(false);
   const [allNotes, setAllNotes] = useState([]);
   const [profile, setProfile] = useState({});
   const limit = 100;
@@ -24,10 +26,12 @@ const Notes = (props) => {
   const notes = {
     state: {
       createNoteModal,
+      searchModal,
       allNotes,
     },
     funcs: {
       toggleNotesModal: () => setCreateNoteModal((open) => !open),
+      searchNotesModal: () => setSearchModal((open) => !open),
       getAllNotes: async () => {
         const result = await getAllNotesAPI(limit, null);
         // setLastId(result.data[result.data.length - 1]._id.$oid);
@@ -50,6 +54,10 @@ const Notes = (props) => {
         const result = await editNote(id, data);
         return result;
       },
+      searchNotes: async (key) => {
+        const result = await searchNotes(key);
+        return result;
+      }
     },
   };
 
@@ -79,6 +87,8 @@ const Notes = (props) => {
     notes.funcs.getAllNotes();
     user.funcs.getProfile();
   }, []);
+
+  console.log(searchModal)
 
   return (
     <NotesProvider value={notes}>

@@ -6,7 +6,7 @@ import Editor from "../../components/Editor";
 import Sidebar from "../../components/Sidebar";
 import CreateNote from "../../components/CreateNote";
 import DeleteWarning from "../../components/DeleteWarning";
-
+import SearchAllNotesModal from "../../components/SearchModal";
 import Welcome from "../../components/Welcome";
 
 const { Content } = Layout;
@@ -25,6 +25,7 @@ const Widget = (props) => {
       </Layout>
       <CreateNote />
       <DeleteWarning />
+      <SearchAllNotesModal />
     </>
   );
 };

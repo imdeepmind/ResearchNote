@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 
 import { Layout, Menu } from "antd";
-import { UserOutlined, CopyOutlined, PlusOutlined } from "@ant-design/icons";
+import { UserOutlined, CopyOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
 
 import { Link } from "react-router-dom";
 
@@ -16,7 +16,7 @@ const Sidebar = (props) => {
   const user = useContext(UserContent);
 
   const { allNotes } = notes["state"];
-  const { openNote, toggleNotesModal } = notes["funcs"];
+  const { openNote, toggleNotesModal, searchNotesModal } = notes["funcs"];
 
   const { profile } = user["state"];
   const { toggleDeleteWarningModal, logout } = user["funcs"];
@@ -44,6 +44,9 @@ const Sidebar = (props) => {
       >
         <Menu.Item onClick={toggleNotesModal} icon={<PlusOutlined />}>
           New Note
+        </Menu.Item>
+        <Menu.Item onClick={searchNotesModal} icon={<SearchOutlined />}>
+          Search Notes
         </Menu.Item>
         <SubMenu key="notes" icon={<CopyOutlined />} title="Notes">
           {allNotes.map((val) => {
