@@ -72,7 +72,13 @@ const Sidebar = (props) => {
           title={profile.firstName + " " + profile.lastName}
         >
           <Menu.Item
-            onClick={() => confirmDialog("Do you want to logout?", "", logout)}
+            onClick={() =>
+              confirmDialog(
+                "Do you want to logout?",
+                "No worries, all your notes are already synced with the server",
+                logout
+              )
+            }
           >
             Logout
           </Menu.Item>
