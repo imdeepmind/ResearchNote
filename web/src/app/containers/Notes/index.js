@@ -65,7 +65,6 @@ const Notes = (props) => {
         props.history.push(`/notes/${key}`);
       },
       getNote: async (id) => {
-        console.log("hihih")
         setError(null);
         const result = await getNoteAPI(id);
         if (result && isValidCode(result.statusCode)) {
@@ -156,7 +155,7 @@ const Notes = (props) => {
   }, []);
 
   if (error) {
-    confirmDialog("Oops", error, null);
+    confirmDialog("Oops!!", error, null);
     setError(null);
   }
 
