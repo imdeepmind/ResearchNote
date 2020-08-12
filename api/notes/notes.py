@@ -38,3 +38,12 @@ class Notes:
     data = [x for x in cursor]
 
     return data
+
+  def search_notes(self, email, key):
+    query = {'email': email, '$text': { '$search': key }}
+    project = {'score': { '$meta': "textScore" }}
+    sort = [('score', { '$meta': "textScore" })]
+
+    cursor = self.__collection.find(query, project).sort(sort).limit(100)
+
+    return [x for x in cursor]
