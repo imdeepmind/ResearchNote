@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import NotesContext from "../../context/NotesContext";
 import UserContent from "../../context/UserContext";
 
-import { deleteDialog } from "../../components/Dialogs";
+import { deleteDialog, confirmDialog } from "../../components/Dialogs";
 
 const { SubMenu } = Menu;
 const { Sider } = Layout;
@@ -71,7 +71,11 @@ const Sidebar = (props) => {
           icon={<UserOutlined />}
           title={profile.firstName + " " + profile.lastName}
         >
-          <Menu.Item onClick={logout}>Logout</Menu.Item>
+          <Menu.Item
+            onClick={() => confirmDialog("Do you want to logout?", "", logout)}
+          >
+            Logout
+          </Menu.Item>
           <Menu.Item
             onClick={() =>
               deleteDialog(
@@ -83,6 +87,8 @@ const Sidebar = (props) => {
           >
             Delete Account
           </Menu.Item>
+
+          <Menu.Item></Menu.Item>
         </SubMenu>
       </Menu>
     </Sider>
