@@ -87,7 +87,8 @@ const Sidebar = (props) => {
           >
             Delete Account
           </Menu.Item>
-
+        </SubMenu>
+        <SubMenu>
           <Menu.Item></Menu.Item>
         </SubMenu>
       </Menu>
