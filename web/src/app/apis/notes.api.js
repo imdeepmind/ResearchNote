@@ -41,3 +41,13 @@ export const getNote = async (id) => {
     return error.response.data;
   }
 };
+
+export const searchNotes = async (key) => {
+  try {
+    const resp = await Axios.get(`/notes/search/${key}`);
+    return resp.data;
+  } catch (error) {
+    console.log("Network error: ", error);
+    return error.response.data;
+  }
+}
