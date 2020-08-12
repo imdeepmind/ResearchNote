@@ -1,5 +1,5 @@
 from os import getenv
-from pymongo import MongoClient
+from pymongo import MongoClient, TEXT
 
 from utils import logger
 
@@ -15,6 +15,7 @@ try:
 
 	Users.create_index('email', unique=True)
 	Notes.create_index('email')
+	Notes.create_index([('title', TEXT)], default_language='english')
 
 except Exception as ex:
 	logger.exception(ex)
