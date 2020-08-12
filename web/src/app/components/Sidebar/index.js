@@ -1,12 +1,19 @@
 import React, { useContext, useState } from "react";
 
 import { Layout, Menu } from "antd";
-import { UserOutlined, CopyOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  CopyOutlined,
+  PlusOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 
 import { Link } from "react-router-dom";
 
 import NotesContext from "../../context/NotesContext";
 import UserContent from "../../context/UserContext";
+
+import { deleteDialog } from "../../components/Dialogs";
 
 const { SubMenu } = Menu;
 const { Sider } = Layout;
@@ -16,10 +23,10 @@ const Sidebar = (props) => {
   const user = useContext(UserContent);
 
   const { allNotes } = notes["state"];
-  const { openNote, toggleNotesModal, searchNotesModal } = notes["funcs"];
+  const { toggleNotesModal, searchNotesModal } = notes["funcs"];
 
   const { profile } = user["state"];
-  const { toggleDeleteWarningModal, logout } = user["funcs"];
+  const { deleteAccount, logout } = user["funcs"];
 
   const [visible, setVisible] = useState(false);
 
@@ -65,7 +72,15 @@ const Sidebar = (props) => {
           title={profile.firstName + " " + profile.lastName}
         >
           <Menu.Item onClick={logout}>Logout</Menu.Item>
-          <Menu.Item onClick={toggleDeleteWarningModal}>
+          <Menu.Item
+            onClick={() =>
+              deleteDialog(
+                "Do you want to delete your account?",
+                "There is no way to reverse this action",
+                deleteAccount
+              )
+            }
+          >
             Delete Account
           </Menu.Item>
         </SubMenu>
