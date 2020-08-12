@@ -37,7 +37,7 @@ const Notes = (props) => {
       searchNotesModal: () => setSearchModal((open) => !open),
       getAllNotes: async () => {
         setError(null);
-        const result = await getAllNotesAPI(30, null);
+        const result = await getAllNotesAPI(30);
         if (result && isValidCode(result.statusCode)) {
           setAllNotes(result.data || []);
           return result;

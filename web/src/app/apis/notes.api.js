@@ -20,11 +20,9 @@ export const editNote = async (id, data) => {
   }
 };
 
-export const getAllNotes = async (limit, last_id) => {
+export const getAllNotes = async (limit) => {
   try {
-    const url = last_id ? `/notes/${limit}/${last_id}/` : `/notes/${limit}/`;
-
-    const resp = await Axios.get(url);
+    const resp = await Axios.get(`/notes/all/${limit}`);
     return resp.data;
   } catch (error) {
     console.log("Network error: ", error);

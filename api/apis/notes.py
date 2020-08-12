@@ -31,9 +31,8 @@ def get_note(id):
     logger.exception(ex)
     return make_response(send_resp(500, "Something went wrong with the server"), 500)
 
-@notes_api.route("/<limit>/", defaults={'last_id': None}, methods=["GET"])
-@notes_api.route("/<limit>/<last_id>", methods=["GET"])
-def get_notes(last_id, limit):
+@notes_api.route("/all/<limit>", methods=["GET"])
+def get_notes(limit):
   token = request.headers.get("Authorization")
 
   valid, token_data = authentication.check_token(token)
@@ -44,12 +43,12 @@ def get_notes(last_id, limit):
   email = token_data["email"]
 
   try:
-    result = notes.get_all_notes(email, last_id, limit)
+    result = notes.get_all_notes(email, None, limit)
 
     if result:
       return make_response(send_resp(200, "", result), 200)
     else:
-      return make_response(send_resp(404, "Notes not available"), 404)
+      return make_response(send_resp(200, "There is no notes for this account", data=[]), 200)
 
   except Exception as ex:
     logger.exception(ex)
