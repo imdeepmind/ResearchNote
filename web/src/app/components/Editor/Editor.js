@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  Editor as DraftEditor,
+  // Editor as DraftEditor,
   EditorState,
   RichUtils,
   getDefaultKeyBinding,
@@ -8,9 +8,16 @@ import {
   convertFromRaw,
 } from "draft-js";
 
-import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import DraftEditor from "draft-js-plugins-editor";
+
+import { ContextMenu, ContextMenuTrigger } from "react-contextmenu";
+import createSideToolbarPlugin from "draft-js-side-toolbar-plugin";
 
 import "./RichEditor.css";
+import "draft-js-side-toolbar-plugin/lib/plugin.css";
+
+const sideToolbarPlugin = createSideToolbarPlugin();
+const { SideToolbar } = sideToolbarPlugin;
 
 class Editor extends React.Component {
   constructor(props) {
@@ -104,7 +111,9 @@ class Editor extends React.Component {
                 placeholder="Type something..."
                 ref="editor"
                 spellCheck={true}
+                plugins={[sideToolbarPlugin]}
               />
+              <SideToolbar />
             </div>
           </div>
         </ContextMenuTrigger>

@@ -19,6 +19,8 @@
 
 .RichEditor-editor {
   cursor: text;
+  margin-left: 150px;
+  margin-right: 150px;
 }
 
 .RichEditor-editor .public-DraftEditorPlaceholder-root,
@@ -70,6 +72,7 @@
 
 .RichEditor-activeButton {
   color: #5890ff;
+  font-weight: bold;
 }
 
 .RichEditor-editor h1{
