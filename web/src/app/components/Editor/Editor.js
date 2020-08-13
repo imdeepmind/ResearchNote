@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   // Editor as DraftEditor,
   EditorState,
@@ -8,16 +8,35 @@ import {
   convertFromRaw,
 } from "draft-js";
 
+import {
+  ItalicButton,
+  BoldButton,
+  UnderlineButton,
+  CodeButton,
+  HeadlineOneButton,
+  HeadlineTwoButton,
+  HeadlineThreeButton,
+  UnorderedListButton,
+  OrderedListButton,
+  BlockquoteButton,
+  CodeBlockButton,
+} from "draft-js-buttons";
+
 import DraftEditor from "draft-js-plugins-editor";
 
 import { ContextMenu, ContextMenuTrigger } from "react-contextmenu";
 import createSideToolbarPlugin from "draft-js-side-toolbar-plugin";
+import createInlineToolbarPlugin from "draft-js-inline-toolbar-plugin";
 
 import "./RichEditor.css";
 import "draft-js-side-toolbar-plugin/lib/plugin.css";
+import "draft-js-inline-toolbar-plugin/lib/plugin.css";
 
 const sideToolbarPlugin = createSideToolbarPlugin();
+const inlineToolbarPlugin = createInlineToolbarPlugin();
+
 const { SideToolbar } = sideToolbarPlugin;
+const { InlineToolbar } = inlineToolbarPlugin;
 
 class Editor extends React.Component {
   constructor(props) {
@@ -111,9 +130,41 @@ class Editor extends React.Component {
                 placeholder="Type something..."
                 ref="editor"
                 spellCheck={true}
-                plugins={[sideToolbarPlugin]}
+                plugins={[sideToolbarPlugin, inlineToolbarPlugin]}
               />
-              <SideToolbar />
+              <SideToolbar>
+                {(externalProps) => (
+                  <Fragment>
+                    <div>
+                      <HeadlineOneButton {...externalProps} />
+                      <HeadlineTwoButton {...externalProps} />
+                      <HeadlineThreeButton {...externalProps} />
+                    </div>
+                    <div>
+                      <BoldButton {...externalProps} />
+                      <ItalicButton {...externalProps} />
+                      <UnderlineButton {...externalProps} />
+                      <CodeButton {...externalProps} />
+                      <BlockquoteButton {...externalProps} />
+                      <CodeBlockButton {...externalProps} />
+                    </div>
+                    <div>
+                      <UnorderedListButton {...externalProps} />
+                      <OrderedListButton {...externalProps} />
+                    </div>
+                  </Fragment>
+                )}
+              </SideToolbar>
+              <InlineToolbar>
+                {(externalProps) => (
+                  <Fragment>
+                    <BoldButton {...externalProps} />
+                    <ItalicButton {...externalProps} />
+                    <UnderlineButton {...externalProps} />
+                    <CodeButton {...externalProps} />
+                  </Fragment>
+                )}
+              </InlineToolbar>
             </div>
           </div>
         </ContextMenuTrigger>

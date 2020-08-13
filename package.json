@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "draft-js-inline-toolbar-plugin": "^3.0.1",
     "draft-js-plugins-editor": "^3.0.0",
     "draft-js-side-toolbar-plugin": "^3.0.2",
     "react-topbar-progress-indicator": "^4.1.0"
