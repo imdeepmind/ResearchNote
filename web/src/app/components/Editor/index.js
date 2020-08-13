@@ -20,7 +20,7 @@ const Editor = (props) => {
 
   const { getNote, editNote, deleteNote } = notes["funcs"];
 
-  const editNoteDebounced = AwesomeDebouncePromise(editNote, 3000);
+  const editNoteDebounced = AwesomeDebouncePromise(editNote, 5000);
 
   useEffect(() => {
     const loadData = async () => {
@@ -35,13 +35,16 @@ const Editor = (props) => {
   }, [id]);
 
   const handleChange = async (raw) => {
+    if (saving || loading) return;
+    if (!content.title) return;
+
     setSaving(true);
     const data = {
       title: content.title,
       content: raw,
     };
 
-    const result = await editNoteDebounced(id, data);
+    await editNoteDebounced(id, data);
     setSaving(false);
   };
 
