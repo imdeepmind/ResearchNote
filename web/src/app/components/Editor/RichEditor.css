@@ -71,3 +71,7 @@
 .RichEditor-activeButton {
   color: #5890ff;
 }
+
+.RichEditor-editor h1{
+  font-size: 26px !important;
+}
