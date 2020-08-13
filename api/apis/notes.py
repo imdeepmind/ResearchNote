@@ -43,7 +43,7 @@ def get_notes(limit):
   email = token_data["email"]
 
   try:
-    result = notes.get_all_notes(email, None, limit)
+    result = notes.get_all_notes(email, limit)
 
     if result:
       return make_response(send_resp(200, "", result), 200)

@@ -29,11 +29,8 @@ class Notes:
   def get_specific_note(self, email, id):
     return self.__collection.find_one({'email': email, '_id': ObjectId(id)})
   
-  def get_all_notes(self, email, last_id, page_size):
-    if last_id is None:
-      cursor = self.__collection.find({'email': email}).limit(int(page_size))
-    else:
-      cursor = self.__collection.find({'email': email, '_id': {'$gt': ObjectId(last_id)}}).limit(int(page_size))
+  def get_all_notes(self, email, page_size):
+    cursor = self.__collection.find({'email': email}, {'content': 0}).limit(int(page_size))
 
     data = [x for x in cursor]
 
@@ -47,3 +44,4 @@ class Notes:
     cursor = self.__collection.find(query, project).sort(sort).limit(100)
 
     return [x for x in cursor]
+    
