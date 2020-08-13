@@ -70,6 +70,7 @@ const Sidebar = (props) => {
           key="account"
           icon={<UserOutlined />}
           title={profile.firstName + " " + profile.lastName}
+          style={{marginBottom: 48}}
         >
           <Menu.Item
             onClick={() =>
@@ -93,9 +94,6 @@ const Sidebar = (props) => {
           >
             Delete Account
           </Menu.Item>
-        </SubMenu>
-        <SubMenu>
-          <Menu.Item></Menu.Item>
         </SubMenu>
       </Menu>
     </Sider>
