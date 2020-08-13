@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import {
-  // Editor as DraftEditor,
   EditorState,
   RichUtils,
   getDefaultKeyBinding,
@@ -122,74 +121,57 @@ class Editor extends React.Component {
     }
     return (
       <>
-        <ContextMenuTrigger id="options">
-          <div className="RichEditor-root">
-            <div className={className} onClick={this.focus}>
-              <DraftEditor
-                blockStyleFn={getBlockStyle}
-                customStyleMap={styleMap}
-                editorState={editorState}
-                handleKeyCommand={this.handleKeyCommand}
-                keyBindingFn={this.mapKeyToEditorCommand}
-                onChange={this.onChange}
-                placeholder="Type something..."
-                ref="editor"
-                spellCheck={true}
-                plugins={[sideToolbarPlugin, inlineToolbarPlugin, emojiPlugin]}
-              />
-              <SideToolbar>
-                {(externalProps) => (
-                  <Fragment>
-                    <div>
-                      <HeadlineOneButton {...externalProps} />
-                      <HeadlineTwoButton {...externalProps} />
-                      <HeadlineThreeButton {...externalProps} />
-                    </div>
-                    <div>
-                      <UnorderedListButton {...externalProps} />
-                      <OrderedListButton {...externalProps} />
-                      <CodeBlockButton {...externalProps} />
-                      <div
-                        style={{ display: "flex", justifyContent: "center" }}
-                      >
-                        <EmojiSelect />
-                      </div>
-                    </div>
-                  </Fragment>
-                )}
-              </SideToolbar>
-              <InlineToolbar>
-                {(externalProps) => (
-                  <Fragment>
-                    <BoldButton {...externalProps} />
-                    <ItalicButton {...externalProps} />
-                    <UnderlineButton {...externalProps} />
-                    <CodeButton {...externalProps} />
-                    <BlockquoteButton {...externalProps} />
-                  </Fragment>
-                )}
-              </InlineToolbar>
-            </div>
-          </div>
-        </ContextMenuTrigger>
-        <ContextMenu id="options">
-          <div className="RichEditor-controls-parent">
-            <BlockStyleControls
+        <div className="RichEditor-root">
+          <div className={className} onClick={this.focus}>
+            <DraftEditor
+              blockStyleFn={getBlockStyle}
+              customStyleMap={styleMap}
               editorState={editorState}
-              onToggle={this.toggleBlockType}
+              handleKeyCommand={this.handleKeyCommand}
+              keyBindingFn={this.mapKeyToEditorCommand}
+              onChange={this.onChange}
+              placeholder="Type something..."
+              ref="editor"
+              spellCheck={true}
+              plugins={[sideToolbarPlugin, inlineToolbarPlugin, emojiPlugin]}
             />
-            <InlineStyleControls
-              editorState={editorState}
-              onToggle={this.toggleInlineStyle}
-            />
+            <SideToolbar>
+              {(externalProps) => (
+                <Fragment>
+                  <div>
+                    <HeadlineOneButton {...externalProps} />
+                    <HeadlineTwoButton {...externalProps} />
+                    <HeadlineThreeButton {...externalProps} />
+                  </div>
+                  <div>
+                    <UnorderedListButton {...externalProps} />
+                    <OrderedListButton {...externalProps} />
+                    <CodeBlockButton {...externalProps} />
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                      <EmojiSelect />
+                    </div>
+                  </div>
+                </Fragment>
+              )}
+            </SideToolbar>
+            <InlineToolbar>
+              {(externalProps) => (
+                <Fragment>
+                  <BoldButton {...externalProps} />
+                  <ItalicButton {...externalProps} />
+                  <UnderlineButton {...externalProps} />
+                  <CodeButton {...externalProps} />
+                  <BlockquoteButton {...externalProps} />
+                </Fragment>
+              )}
+            </InlineToolbar>
           </div>
-        </ContextMenu>
+        </div>
       </>
     );
   }
 }
 
-// Custom overrides for "code" style.
 const styleMap = {
   CODE: {
     backgroundColor: "rgba(0, 0, 0, 0.05)",
@@ -208,88 +190,5 @@ function getBlockStyle(block) {
   }
 }
 
-class StyleButton extends React.Component {
-  constructor() {
-    super();
-    this.onToggle = (e) => {
-      e.preventDefault();
-      this.props.onToggle(this.props.style);
-    };
-  }
-
-  render() {
-    let className = "RichEditor-styleButton";
-    if (this.props.active) {
-      className += " RichEditor-activeButton";
-    }
-
-    return (
-      <span className={className} onMouseDown={this.onToggle}>
-        {this.props.label}
-      </span>
-    );
-  }
-}
-
-const BLOCK_TYPES = [
-  { label: "H1", style: "header-one" },
-  { label: "H2", style: "header-two" },
-  { label: "H3", style: "header-three" },
-  { label: "H4", style: "header-four" },
-  { label: "H5", style: "header-five" },
-  { label: "H6", style: "header-six" },
-  { label: "Blockquote", style: "blockquote" },
-  { label: "UL", style: "unordered-list-item" },
-  { label: "OL", style: "ordered-list-item" },
-  { label: "Code Block", style: "code-block" },
-];
-
-const BlockStyleControls = (props) => {
-  const { editorState } = props;
-  const selection = editorState.getSelection();
-  const blockType = editorState
-    .getCurrentContent()
-    .getBlockForKey(selection.getStartKey())
-    .getType();
-
-  return (
-    <div className="RichEditor-controls">
-      {BLOCK_TYPES.map((type) => (
-        <StyleButton
-          key={type.label}
-          active={type.style === blockType}
-          label={type.label}
-          onToggle={props.onToggle}
-          style={type.style}
-        />
-      ))}
-    </div>
-  );
-};
-
-var INLINE_STYLES = [
-  { label: "Bold", style: "BOLD" },
-  { label: "Italic", style: "ITALIC" },
-  { label: "Underline", style: "UNDERLINE" },
-  { label: "Monospace", style: "CODE" },
-];
-
-const InlineStyleControls = (props) => {
-  const currentStyle = props.editorState.getCurrentInlineStyle();
-
-  return (
-    <div className="RichEditor-controls">
-      {INLINE_STYLES.map((type) => (
-        <StyleButton
-          key={type.label}
-          active={currentStyle.has(type.style)}
-          label={type.label}
-          onToggle={props.onToggle}
-          style={type.style}
-        />
-      ))}
-    </div>
-  );
-};
 
 export default Editor;
