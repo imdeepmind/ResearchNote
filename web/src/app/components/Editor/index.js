@@ -8,7 +8,7 @@ import EditorPad from "./Editor";
 import NotesContext from "../../context/NotesContext";
 import { deleteDialog } from "../Dialogs";
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 const Editor = (props) => {
   const notes = useContext(NotesContext);
@@ -46,7 +46,21 @@ const Editor = (props) => {
   };
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return (
+      <Title
+        level={3}
+        type="secondary"
+        style={{
+          width: "100%",
+          height: 100,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        Loading...
+      </Title>
+    );
   }
 
   return (
