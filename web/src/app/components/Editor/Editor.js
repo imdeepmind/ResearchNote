@@ -25,18 +25,23 @@ import {
 import DraftEditor from "draft-js-plugins-editor";
 
 import { ContextMenu, ContextMenuTrigger } from "react-contextmenu";
+
 import createSideToolbarPlugin from "draft-js-side-toolbar-plugin";
 import createInlineToolbarPlugin from "draft-js-inline-toolbar-plugin";
+import createEmojiPlugin from "draft-js-emoji-plugin";
 
 import "./RichEditor.css";
 import "draft-js-side-toolbar-plugin/lib/plugin.css";
 import "draft-js-inline-toolbar-plugin/lib/plugin.css";
+import "draft-js-emoji-plugin/lib/plugin.css";
 
 const sideToolbarPlugin = createSideToolbarPlugin();
 const inlineToolbarPlugin = createInlineToolbarPlugin();
+const emojiPlugin = createEmojiPlugin();
 
 const { SideToolbar } = sideToolbarPlugin;
 const { InlineToolbar } = inlineToolbarPlugin;
+const { EmojiSelect } = emojiPlugin;
 
 class Editor extends React.Component {
   constructor(props) {
@@ -130,7 +135,7 @@ class Editor extends React.Component {
                 placeholder="Type something..."
                 ref="editor"
                 spellCheck={true}
-                plugins={[sideToolbarPlugin, inlineToolbarPlugin]}
+                plugins={[sideToolbarPlugin, inlineToolbarPlugin, emojiPlugin]}
               />
               <SideToolbar>
                 {(externalProps) => (
@@ -141,16 +146,14 @@ class Editor extends React.Component {
                       <HeadlineThreeButton {...externalProps} />
                     </div>
                     <div>
-                      <BoldButton {...externalProps} />
-                      <ItalicButton {...externalProps} />
-                      <UnderlineButton {...externalProps} />
-                      <CodeButton {...externalProps} />
-                      <BlockquoteButton {...externalProps} />
-                      <CodeBlockButton {...externalProps} />
-                    </div>
-                    <div>
                       <UnorderedListButton {...externalProps} />
                       <OrderedListButton {...externalProps} />
+                      <CodeBlockButton {...externalProps} />
+                      <div
+                        style={{ display: "flex", justifyContent: "center" }}
+                      >
+                        <EmojiSelect />
+                      </div>
                     </div>
                   </Fragment>
                 )}
@@ -162,6 +165,7 @@ class Editor extends React.Component {
                     <ItalicButton {...externalProps} />
                     <UnderlineButton {...externalProps} />
                     <CodeButton {...externalProps} />
+                    <BlockquoteButton {...externalProps} />
                   </Fragment>
                 )}
               </InlineToolbar>
