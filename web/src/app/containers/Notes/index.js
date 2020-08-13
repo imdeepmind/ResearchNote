@@ -14,10 +14,20 @@ import { getProfile, deleteProfile } from "../../apis/auth.api";
 import { NotesProvider } from "../../context/NotesContext";
 import { UserProvider } from "../../context/UserContext";
 
+import TopBarProgress from "react-topbar-progress-indicator";
+
 import Widget from "./Widget";
 import { confirmDialog } from "../../components/Dialogs";
 
 const isValidCode = (code) => code / 200 >= 1 && code / 200 < 2;
+
+TopBarProgress.config({
+  barColors: {
+    "0": "#1890ff",
+    "1.0": "#002766",
+  },
+  shadowBlur: 5,
+});
 
 const Notes = (props) => {
   const [createNoteModal, setCreateNoteModal] = useState(false);
@@ -25,6 +35,7 @@ const Notes = (props) => {
   const [allNotes, setAllNotes] = useState([]);
   const [profile, setProfile] = useState({});
   const [error, setError] = useState(null);
+  const [showLoader, setShowLoader] = useState(false);
 
   const notes = {
     state: {
@@ -37,9 +48,11 @@ const Notes = (props) => {
       searchNotesModal: () => setSearchModal((open) => !open),
       getAllNotes: async () => {
         setError(null);
+        setShowLoader(true);
         const result = await getAllNotesAPI(30);
         if (result && isValidCode(result.statusCode)) {
           setAllNotes(result.data || []);
+          setShowLoader(false);
           return result;
         }
         setError(
@@ -47,6 +60,7 @@ const Notes = (props) => {
             ? result.message
             : "Can not load the list of notes"
         );
+        setShowLoader(false);
       },
       createNewNote: async (data) => {
         setError(null);
@@ -66,13 +80,16 @@ const Notes = (props) => {
       },
       getNote: async (id) => {
         setError(null);
+        setShowLoader(true);
         const result = await getNoteAPI(id);
         if (result && isValidCode(result.statusCode)) {
+          setShowLoader(false);
           return result;
         }
         setError(
           result && result.message ? result.message : "Can not load the note"
         );
+        setShowLoader(false);
       },
       editNote: async (id, data) => {
         setError(null);
@@ -162,6 +179,7 @@ const Notes = (props) => {
   return (
     <NotesProvider value={notes}>
       <UserProvider value={user}>
+        {showLoader && <TopBarProgress />}
         <Widget match={props.match} />
       </UserProvider>
     </NotesProvider>
