@@ -1,91 +1,80 @@
 import React, { useContext, useState, useEffect } from "react";
-import AwesomeDebouncePromise from "awesome-debounce-promise";
+import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 
-import { Button, Typography } from "antd";
-import { DeleteOutlined, MenuOutlined } from "@ant-design/icons";
-
-import EditorPad from "./Editor";
 import NotesContext from "../../context/NotesContext";
-import { deleteDialog } from "../Dialogs";
+import EditorComponent from "./components/Editor";
 
-const { Text, Title } = Typography;
+let lastInterval = null;
 
 const Editor = (props) => {
-  const notes = useContext(NotesContext);
-
+  // id of the page
   const id = props.match.params.id;
-  const [content, setContent] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [saving, setSaving] = useState(false);
 
+  // notes content
+  const notes = useContext(NotesContext);
   const { getNote, editNote, deleteNote } = notes["funcs"];
 
-  const editNoteDebounced = AwesomeDebouncePromise(editNote, 5000);
+  // state
+  const [title, setTitle] = useState(null);
+  const [editorState, setEditorState] = useState(null);
+  const [unsavedData, setUnsavedData] = useState(false);
 
+  // load the initial content
   useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
+    const loadContent = async () => {
       const result = await getNote(id);
 
-      setContent(result.data);
-      setLoading(false);
+      if (result && result.data) {
+        setTitle(result.data.title);
+
+        if (result.data.content) {
+          const data = convertFromRaw(JSON.parse(result.data.content));
+          setEditorState(EditorState.createWithContent(data));
+        } else {
+          setEditorState(EditorState.createEmpty());
+        }
+      }
     };
 
-    loadData();
+    loadContent();
   }, [id]);
 
-  const handleChange = async (raw) => {
-    if (saving || loading) return;
-    if (!content.title) return;
+  useEffect(() => {
+    const saveContent = async () => {
+      if (unsavedData === false) return;
+      if (editorState === null || title === null) return;
 
-    setSaving(true);
-    const data = {
-      title: content.title,
-      content: raw,
+      const contentState = editorState.getCurrentContent();
+
+      const rawObject = JSON.stringify(convertToRaw(contentState));
+
+      const data = {
+        title,
+        content: rawObject,
+      };
+
+      await editNote(id, data);
+
+      setUnsavedData(false);
     };
+    if (lastInterval) clearInterval(lastInterval);
 
-    await editNoteDebounced(id, data);
-    setSaving(false);
+    lastInterval = setInterval(saveContent, 5000);
+  }, [editorState, id, unsavedData]);
+
+  const handleChange = async (editorState) => {
+    setEditorState(editorState);
+    setUnsavedData(true);
   };
 
-  if (loading) {
-    return (
-      <Title
-        level={3}
-        type="secondary"
-        style={{
-          width: "100%",
-          height: 100,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        Loading...
-      </Title>
-    );
-  }
-
   return (
-    <>
-      <EditorPad initialValue={content.content} onChange={handleChange} />
-      <div style={{ position: "absolute", top: 10, right: 30 }}>
-        <Text>{saving ? "Syncing" : "Synced"}</Text>
-      </div>
-      <div style={{ position: "absolute", bottom: 10, right: 30 }}>
-        <Button
-          size="large"
-          icon={<DeleteOutlined />}
-          onClick={() =>
-            deleteDialog(
-              "Do you want to delete this note?",
-              "There is no way to reverse the action",
-              async () => deleteNote(id)
-            )
-          }
-        />
-      </div>
-    </>
+    <EditorComponent
+      editorState={editorState}
+      handleChange={handleChange}
+      unsavedData={unsavedData}
+      deleteNote={deleteNote}
+      id={id}
+    />
   );
 };
 
