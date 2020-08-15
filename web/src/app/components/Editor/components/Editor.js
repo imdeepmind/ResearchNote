@@ -117,10 +117,10 @@ const EditorComponent = (props) => {
         )}
       </InlineToolbar>
 
-      <div style={{ position: "absolute", top: 10, right: 30 }}>
+      <div style={{ position: "fixed", top: 10, right: 30 }}>
         <Text>{unsavedData ? "Syncing" : "Synced"}</Text>
       </div>
-      <div style={{ position: "absolute", bottom: 10, right: 30 }}>
+      <div style={{ position: "fixed", bottom: 10, right: 30 }}>
         <Button
           size="large"
           icon={<DeleteOutlined />}
