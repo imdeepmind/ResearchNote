@@ -1,0 +1,23 @@
+.welcome-para {
+  width: 95%;
+  text-align: center;
+}
+
+
+@media (min-width: 576px) {
+  .welcome-para {
+    width: 85%;
+  }
+}
+
+@media (min-width: 768px) {
+  .welcome-para {
+    width: 65%;
+  }
+}
+
+@media (min-width: 992px) {
+  .welcome-para {
+    width: 50%;
+  }
+}

@@ -1,12 +1,29 @@
 import React from "react";
+import { Typography } from "antd";
+
+import "./style.css";
+
+const { Title } = Typography;
 
 const Welcome = () => {
   return (
-    <div>
-      <h1>Hello, welcome to Research Notes</h1>
-      <p>Ultra minimalistic open source note taking app</p>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        width: "100%",
+        height: "100vh",
+      }}
+    >
+      <Title>Hello, welcome to Research Notes</Title>
+      <Title level={3} className="welcome-para">
+        Research Notes is a ultra minimalistic open source note taking app.
+        Click on the "New Note" button to create a new note.
+      </Title>
     </div>
-  )
-}
+  );
+};
 
 export default Welcome;

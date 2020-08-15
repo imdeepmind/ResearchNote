@@ -12,4 +12,14 @@ axios.interceptors.request.use((config) => {
   return config;
 });
 
+axios.interceptors.response.use((response) => {
+  return response;
+}, (error) => {
+  if (error && error.response && error.response.status === 401) {
+    localStorage.removeItem("id_token");
+    window.location = "/";
+  }
+  return Promise.reject(error);
+});
+
 export default axios;
