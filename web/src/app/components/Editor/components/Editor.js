@@ -20,6 +20,7 @@ import createSideToolbarPlugin from "draft-js-side-toolbar-plugin";
 import createInlineToolbarPlugin from "draft-js-inline-toolbar-plugin";
 import createEmojiPlugin from "draft-js-emoji-plugin";
 
+import "./editor.css";
 import "draft-js-side-toolbar-plugin/lib/plugin.css";
 import "draft-js-inline-toolbar-plugin/lib/plugin.css";
 import "draft-js-emoji-plugin/lib/plugin.css";
@@ -34,6 +35,24 @@ const { Title, Text } = Typography;
 const { SideToolbar } = sideToolbarPlugin;
 const { InlineToolbar } = inlineToolbarPlugin;
 const { EmojiSelect } = emojiPlugin;
+
+const styleMap = {
+  CODE: {
+    backgroundColor: "rgba(0, 0, 0, 0.05)",
+    fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
+    fontSize: 16,
+    padding: 2,
+  },
+};
+
+const getBlockStyle = (block) => {
+  switch (block.getType()) {
+    case "blockquote":
+      return "editor-blockquote";
+    default:
+      return null;
+  }
+};
 
 const EditorComponent = (props) => {
   const { editorState, handleChange, unsavedData, deleteNote, id } = props;
@@ -57,13 +76,15 @@ const EditorComponent = (props) => {
   }
 
   return (
-    <div style={{ margin: "50px 150px" }}>
+    <div className="editor">
       <DraftEditor
         spellCheck={true}
         onChange={handleChange}
         editorState={editorState}
         plugins={[sideToolbarPlugin, inlineToolbarPlugin, emojiPlugin]}
         placeholder="Type something...."
+        blockStyleFn={getBlockStyle}
+        customStyleMap={styleMap}
       />
       <SideToolbar>
         {(externalProps) => (
