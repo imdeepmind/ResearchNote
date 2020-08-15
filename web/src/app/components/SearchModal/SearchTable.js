@@ -1,9 +1,8 @@
 import React from "react";
-import { Table } from "antd";
-import { Link } from "react-router-dom";
+import { Table, Button } from "antd";
 import { SelectOutlined } from "@ant-design/icons";
 
-const SearchTable = ({ data, loading }) => {
+const SearchTable = ({ data, loading, handleOpenNote }) => {
   const columns = [
     {
       title: "Open",
@@ -11,11 +10,10 @@ const SearchTable = ({ data, loading }) => {
       key: "_id",
       render: (value) => {
         const id = value["$oid"];
-
         return (
-          <Link to={`/notes/${id}`}>
+          <Button onClick={() => handleOpenNote(id)}>
             <SelectOutlined />
-          </Link>
+          </Button>
         );
       },
     },
@@ -33,7 +31,6 @@ const SearchTable = ({ data, loading }) => {
         if (value) {
           const d = Date(value);
           window.test = d;
-          console.log(d, d.toDateString);
           return <span>{d.substr(0, 15)}</span>;
         }
       },

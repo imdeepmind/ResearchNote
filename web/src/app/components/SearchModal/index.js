@@ -5,21 +5,21 @@ import NotesContext from "../../context/NotesContext";
 
 import SearchTable from "./SearchTable";
 
-const SearchAllNotes = () => {
-  const user = useContext(NotesContext);
+const SearchAllNotes = (props) => {
+  const notes = useContext(NotesContext);
 
-  const { searchModal } = user["state"];
-  const { searchNotes, searchNotesModal } = user["funcs"];
+  const { searchModal } = notes["state"];
+  const { searchNotes, searchNotesModal, openNote } = notes["funcs"];
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [notes, setNotes] = useState([]);
+  const [allNotes, setAllNotes] = useState([]);
 
   const handleSearch = async ({ query }) => {
     setLoading(true);
     if (searchNotes) {
       const result = await searchNotes(query);
-      setNotes(result.data || []);
+      setAllNotes(result.data || []);
     }
     setLoading(false);
   };
@@ -32,6 +32,12 @@ const SearchAllNotes = () => {
   useEffect(() => {
     setOpen(searchModal);
   });
+
+  const handleOpenNote = (id) => {
+    console.log(id);
+    modalClose();
+    openNote({ key: id });
+  };
 
   return (
     <>
@@ -73,7 +79,11 @@ const SearchAllNotes = () => {
             </Form.Item>
           </Form>
         </div>
-        <SearchTable data={notes} true={true} />
+        <SearchTable
+          data={allNotes}
+          true={true}
+          handleOpenNote={handleOpenNote}
+        />
       </Modal>
     </>
   );
