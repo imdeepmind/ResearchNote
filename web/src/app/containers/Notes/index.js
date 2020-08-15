@@ -19,7 +19,7 @@ import TopBarProgress from "react-topbar-progress-indicator";
 import Widget from "./Widget";
 import { confirmDialog } from "../../components/Dialogs";
 
-const isValidCode = (code) => code / 200 >= 1 && code / 200 < 2;
+const isValidCode = (code) => code / 500 < 1;
 
 TopBarProgress.config({
   barColors: {
@@ -169,7 +169,7 @@ const Notes = (props) => {
   useEffect(() => {
     notes.funcs.getAllNotes();
     user.funcs.getProfile();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (error) {
     confirmDialog("Oops!!", error, null);

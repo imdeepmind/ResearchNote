@@ -5,23 +5,21 @@ import NotesContext from "../../context/NotesContext";
 
 import SearchTable from "./SearchTable";
 
+const SearchAllNotes = (props) => {
+  const notes = useContext(NotesContext);
 
-const SearchAllNotes = () => {
-  const user = useContext(NotesContext);
-
-  const { searchModal } = user["state"];
-  const { searchNotes, searchNotesModal } = user["funcs"];
+  const { searchModal } = notes["state"];
+  const { searchNotes, searchNotesModal, openNote } = notes["funcs"];
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [key, setKey] = useState("");
-  const [notes, setNotes] = useState([]);
+  const [allNotes, setAllNotes] = useState([]);
 
-  const handleSearch = async ({query}) => {
+  const handleSearch = async ({ query }) => {
     setLoading(true);
     if (searchNotes) {
       const result = await searchNotes(query);
-      setNotes(result.data || []);
+      setAllNotes(result.data || []);
     }
     setLoading(false);
   };
@@ -33,7 +31,13 @@ const SearchAllNotes = () => {
 
   useEffect(() => {
     setOpen(searchModal);
-  });
+  }, [searchModal]);
+
+  const handleOpenNote = (id) => {
+    console.log(id);
+    modalClose();
+    openNote({ key: id });
+  };
 
   return (
     <>
@@ -48,25 +52,38 @@ const SearchAllNotes = () => {
           </Button>,
         ]}
       >
-        <Form name="search_notes" onFinish={handleSearch} layout="inline">
-          <Form.Item
-            label="Search Query"
-            name="query"
-            rules={[
-              {
-                required: true,
-                message: "Please provide a search query to search",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item label="" colon={false}>
-            <Button type="primary" htmlType="submit" loading={loading}>Search</Button>
-          </Form.Item>
-
-          <SearchTable data={notes} />
-        </Form>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            margin: 10,
+          }}
+        >
+          <Form name="search_notes" onFinish={handleSearch} layout="inline">
+            <Form.Item
+              name="query"
+              rules={[
+                {
+                  required: true,
+                  message: "Please provide a search query to search",
+                },
+              ]}
+            >
+              <Input allowClear={true} type="search" placeholder="Search..." />
+            </Form.Item>
+            <Form.Item label="" colon={false}>
+              <Button type="primary" htmlType="submit" loading={loading}>
+                Search
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
+        <SearchTable
+          data={allNotes}
+          true={true}
+          handleOpenNote={handleOpenNote}
+        />
       </Modal>
     </>
   );
