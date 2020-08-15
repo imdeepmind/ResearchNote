@@ -1,17 +1,29 @@
 import React from "react";
 import { Table } from "antd";
+import { Link } from "react-router-dom";
+import { SelectOutlined } from "@ant-design/icons";
 
-const SearchTable = ({ data }) => {
+const SearchTable = ({ data, loading }) => {
   const columns = [
+    {
+      title: "Open",
+      dataIndex: "_id",
+      key: "_id",
+      render: (value) => {
+        const id = value["$oid"];
+
+        return (
+          <Link to={`/notes/${id}`}>
+            <SelectOutlined />
+          </Link>
+        );
+      },
+    },
     {
       title: "Title",
       dataIndex: "title",
       key: "title",
-      width: "60%",
-      render: val => {
-        console.log(val);
-        return <p>Test</p>
-      }
+      width: "40%"
     },
     {
       title: "Created At",
@@ -27,9 +39,14 @@ const SearchTable = ({ data }) => {
 
   return (
     <Table
+      tableLayout="fixed"
+      loading={loading}
       style={{ width: "100%" }}
       dataSource={data || []}
       columns={columns}
+      pagination={{
+        pageSize: 5,
+      }}
     />
   );
 };

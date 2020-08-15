@@ -73,7 +73,7 @@ const SearchAllNotes = () => {
             </Form.Item>
           </Form>
         </div>
-        <SearchTable data={notes} />
+        <SearchTable data={notes} true={true} />
       </Modal>
     </>
   );
