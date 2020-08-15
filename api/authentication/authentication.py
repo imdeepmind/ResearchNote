@@ -40,11 +40,15 @@ class Authentication:
     })
   
   def __sign_jwt(self, email, _id):
-    return jwt.encode({'email': email, '_id': str(_id)}, getenv("JWT_SECRET")).decode("ascii")
+    exp = int(time()) + 604800
+    return jwt.encode({'email': email, '_id': str(_id), 'exp': exp}, getenv("JWT_SECRET")).decode("ascii")
   
   def __parse_token(self, token):
     try:
-      return jwt.decode(token, getenv("JWT_SECRET"))
+      data =  jwt.decode(token, getenv("JWT_SECRET"))
+      
+      if (int(time()) > data["exp"]) raise Exception("JWT expired")
+      return data
     except Exception as ex:
       logger.exception(ex)
       return False
