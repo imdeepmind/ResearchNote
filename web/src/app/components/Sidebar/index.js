@@ -33,10 +33,7 @@ const Sidebar = (props) => {
   const id = props.match.params.id;
 
   return (
-    <>
-      <div
-        style={{ transition: "all 0.3s ease", width: visible ? 80 : 200 }}
-      ></div>
+    <div style={{ transition: "all 0.3s ease", width: visible ? 80 : 200 }}>
       <Sider
         collapsible
         collapsed={visible}
@@ -102,7 +99,7 @@ const Sidebar = (props) => {
           </SubMenu>
         </Menu>
       </Sider>
-    </>
+    </div>
   );
 };
 
