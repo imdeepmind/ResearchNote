@@ -23,17 +23,31 @@ const SearchTable = ({ data, loading }) => {
       title: "Title",
       dataIndex: "title",
       key: "title",
-      width: "40%"
+      width: "40%",
     },
     {
       title: "Created At",
       dataIndex: "created_at",
       key: "created_at",
+      render: (value) => {
+        if (value) {
+          const d = Date(value);
+          window.test = d;
+          console.log(d, d.toDateString);
+          return <span>{d.substr(0, 15)}</span>;
+        }
+      },
     },
     {
       title: "Updated At",
       dataIndex: "updated_at",
       key: "updated_at",
+      render: (value) => {
+        if (value) {
+          const d = Date(value);
+          return <span>{d.substr(0, 15)}</span>;
+        }
+      },
     },
   ];
 
