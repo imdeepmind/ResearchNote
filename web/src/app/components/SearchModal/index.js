@@ -5,7 +5,6 @@ import NotesContext from "../../context/NotesContext";
 
 import SearchTable from "./SearchTable";
 
-
 const SearchAllNotes = () => {
   const user = useContext(NotesContext);
 
@@ -16,7 +15,7 @@ const SearchAllNotes = () => {
   const [loading, setLoading] = useState(false);
   const [notes, setNotes] = useState([]);
 
-  const handleSearch = async ({query}) => {
+  const handleSearch = async ({ query }) => {
     setLoading(true);
     if (searchNotes) {
       const result = await searchNotes(query);
@@ -47,25 +46,34 @@ const SearchAllNotes = () => {
           </Button>,
         ]}
       >
-        <Form name="search_notes" onFinish={handleSearch} layout="inline">
-          <Form.Item
-            label="Search Query"
-            name="query"
-            rules={[
-              {
-                required: true,
-                message: "Please provide a search query to search",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item label="" colon={false}>
-            <Button type="primary" htmlType="submit" loading={loading}>Search</Button>
-          </Form.Item>
-
-          <SearchTable data={notes} />
-        </Form>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            margin: 10,
+          }}
+        >
+          <Form name="search_notes" onFinish={handleSearch} layout="inline">
+            <Form.Item
+              name="query"
+              rules={[
+                {
+                  required: true,
+                  message: "Please provide a search query to search",
+                },
+              ]}
+            >
+              <Input allowClear={true} type="search" placeholder="Search..." />
+            </Form.Item>
+            <Form.Item label="" colon={false}>
+              <Button type="primary" htmlType="submit" loading={loading}>
+                Search
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
+        <SearchTable data={notes} />
       </Modal>
     </>
   );
