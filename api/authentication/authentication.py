@@ -47,7 +47,8 @@ class Authentication:
     try:
       data =  jwt.decode(token, getenv("JWT_SECRET"))
       
-      if (int(time()) > data["exp"]) raise Exception("JWT expired")
+      if (int(time()) > data["exp"]):
+        raise Exception("JWT expired")
       return data
     except Exception as ex:
       logger.exception(ex)
