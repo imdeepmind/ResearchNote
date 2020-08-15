@@ -169,7 +169,7 @@ const Notes = (props) => {
   useEffect(() => {
     notes.funcs.getAllNotes();
     user.funcs.getProfile();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (error) {
     confirmDialog("Oops!!", error, null);

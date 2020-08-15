@@ -37,7 +37,7 @@ const Editor = (props) => {
     };
 
     loadContent();
-  }, [id]);
+  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const saveContent = async () => {
@@ -60,7 +60,7 @@ const Editor = (props) => {
     if (lastInterval) clearInterval(lastInterval);
 
     lastInterval = setInterval(saveContent, 1500);
-  }, [editorState, id, unsavedData]);
+  }, [editorState, id, unsavedData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleChange = async (editorState) => {
     setEditorState(editorState);

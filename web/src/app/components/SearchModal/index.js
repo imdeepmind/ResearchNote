@@ -31,7 +31,7 @@ const SearchAllNotes = (props) => {
 
   useEffect(() => {
     setOpen(searchModal);
-  });
+  }, [searchModal]);
 
   const handleOpenNote = (id) => {
     console.log(id);
