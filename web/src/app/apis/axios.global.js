@@ -15,7 +15,10 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use((response) => {
   return response;
 }, (error) => {
-  console.log(error);
+  if (error && error.response && error.response.status === 401) {
+    localStorage.removeItem("id_token");
+    window.location = "/";
+  }
   return Promise.reject(error);
 });
 
