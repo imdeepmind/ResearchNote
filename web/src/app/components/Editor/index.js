@@ -73,6 +73,8 @@ const Editor = (props) => {
       editorState={editorState}
       handleChange={handleChange}
       unsavedData={unsavedData}
+      deleteNote={deleteNote}
+      id={id}
     />
   );
 };
