@@ -2,13 +2,41 @@ import React from "react";
 import DraftEditor from "draft-js-plugins-editor";
 import { Typography, Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
+import {
+  ItalicButton,
+  BoldButton,
+  UnderlineButton,
+  CodeButton,
+  HeadlineOneButton,
+  HeadlineTwoButton,
+  HeadlineThreeButton,
+  UnorderedListButton,
+  OrderedListButton,
+  BlockquoteButton,
+  CodeBlockButton,
+} from "draft-js-buttons";
+
+import createSideToolbarPlugin from "draft-js-side-toolbar-plugin";
+import createInlineToolbarPlugin from "draft-js-inline-toolbar-plugin";
+import createEmojiPlugin from "draft-js-emoji-plugin";
+
+import "draft-js-side-toolbar-plugin/lib/plugin.css";
+import "draft-js-inline-toolbar-plugin/lib/plugin.css";
+import "draft-js-emoji-plugin/lib/plugin.css";
 
 import { deleteDialog } from "../../Dialogs";
 
+const sideToolbarPlugin = createSideToolbarPlugin();
+const inlineToolbarPlugin = createInlineToolbarPlugin();
+const emojiPlugin = createEmojiPlugin();
+
 const { Title, Text } = Typography;
+const { SideToolbar } = sideToolbarPlugin;
+const { InlineToolbar } = inlineToolbarPlugin;
+const { EmojiSelect } = emojiPlugin;
 
 const EditorComponent = (props) => {
-  const {editorState, handleChange, unsavedData, deleteNote, id} = props;
+  const { editorState, handleChange, unsavedData, deleteNote, id } = props;
   // show loader if editorState is null
   if (!editorState) {
     return (
@@ -34,7 +62,39 @@ const EditorComponent = (props) => {
         spellCheck={true}
         onChange={handleChange}
         editorState={editorState}
+        plugins={[sideToolbarPlugin, inlineToolbarPlugin, emojiPlugin]}
+        placeholder="Type something...."
       />
+      <SideToolbar>
+        {(externalProps) => (
+          <>
+            <div>
+              <HeadlineOneButton {...externalProps} />
+              <HeadlineTwoButton {...externalProps} />
+              <HeadlineThreeButton {...externalProps} />
+            </div>
+            <div>
+              <UnorderedListButton {...externalProps} />
+              <OrderedListButton {...externalProps} />
+              <CodeBlockButton {...externalProps} />
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <EmojiSelect />
+              </div>
+            </div>
+          </>
+        )}
+      </SideToolbar>
+      <InlineToolbar>
+        {(externalProps) => (
+          <>
+            <BoldButton {...externalProps} />
+            <ItalicButton {...externalProps} />
+            <UnderlineButton {...externalProps} />
+            <CodeButton {...externalProps} />
+            <BlockquoteButton {...externalProps} />
+          </>
+        )}
+      </InlineToolbar>
 
       <div style={{ position: "absolute", top: 10, right: 30 }}>
         <Text>{unsavedData ? "Syncing" : "Synced"}</Text>
@@ -54,6 +114,6 @@ const EditorComponent = (props) => {
       </div>
     </div>
   );
-}
+};
 
 export default EditorComponent;

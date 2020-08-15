@@ -12,7 +12,6 @@ const Editor = (props) => {
 
   // notes content
   const notes = useContext(NotesContext);
-
   const { getNote, editNote, deleteNote } = notes["funcs"];
 
   // state
