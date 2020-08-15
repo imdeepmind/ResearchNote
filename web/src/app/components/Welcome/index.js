@@ -1,7 +1,9 @@
 import React from "react";
 import { Typography } from "antd";
 
-const { Title, Text } = Typography;
+import "./style.css";
+
+const { Title } = Typography;
 
 const Welcome = () => {
   return (
@@ -16,10 +18,10 @@ const Welcome = () => {
       }}
     >
       <Title>Hello, welcome to Research Notes</Title>
-      <Text>
+      <Title level={3} className="welcome-para">
         Research Notes is a ultra minimalistic open source note taking app.
         Click on the "New Note" button to create a new note.
-      </Text>
+      </Title>
     </div>
   );
 };
