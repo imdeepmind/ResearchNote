@@ -16,6 +16,10 @@
   padding: 20px;
 }
 
+.editor h1{
+  font-size: 26px;
+}
+
 @media (min-width: 576px) {
   .editor{
     margin: 30px 20px;

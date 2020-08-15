@@ -14,7 +14,6 @@ const SearchAllNotes = () => {
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [key, setKey] = useState("");
   const [notes, setNotes] = useState([]);
 
   const handleSearch = async ({query}) => {

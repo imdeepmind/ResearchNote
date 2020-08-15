@@ -20,7 +20,7 @@ const CreateNote = () => {
   const handleSubmit = async () => {
     setLoading(true);
     if (createNewNote) {
-      const result = await createNewNote({
+      await createNewNote({
         title,
       });
     }

@@ -59,7 +59,7 @@ const Editor = (props) => {
     };
     if (lastInterval) clearInterval(lastInterval);
 
-    lastInterval = setInterval(saveContent, 5000);
+    lastInterval = setInterval(saveContent, 1500);
   }, [editorState, id, unsavedData]);
 
   const handleChange = async (editorState) => {
