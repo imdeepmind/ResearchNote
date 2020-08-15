@@ -1,12 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Typography } from "antd";
-
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
-import DraftEditor from "draft-js-plugins-editor";
 
 import NotesContext from "../../context/NotesContext";
-
-const { Title, Text } = Typography;
+import EditorComponent from "./components/Editor";
 
 let lastInterval = null;
 
@@ -72,37 +68,12 @@ const Editor = (props) => {
     setUnsavedData(true);
   };
 
-  // show loader if editorState is null
-  if (!editorState) {
-    return (
-      <Title
-        level={3}
-        type="secondary"
-        style={{
-          width: "100%",
-          height: 100,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        Loading...
-      </Title>
-    );
-  }
-
   return (
-    <div style={{ margin: "50px 150px" }}>
-      <DraftEditor
-        spellCheck={true}
-        onChange={handleChange}
-        editorState={editorState}
-      />
-
-      <div style={{ position: "absolute", top: 10, right: 30 }}>
-        <Text>{unsavedData ? "Syncing" : "Synced"}</Text>
-      </div>
-    </div>
+    <EditorComponent
+      editorState={editorState}
+      handleChange={handleChange}
+      unsavedData={unsavedData}
+    />
   );
 };
 
