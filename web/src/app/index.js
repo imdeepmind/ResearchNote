@@ -8,6 +8,7 @@ import {
 
 import Home from "./containers/Home";
 import Notes from "./containers/Notes";
+import Error from "./containers/Error";
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
   // TODO: Need to handle it in better way
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/" exact component={Home} />
         <ProtectedRoute path="/notes" exact component={Notes} />
         <ProtectedRoute path="/notes/:id" exact component={Notes} />
+        <Route path="*" component={Error} />
       </Switch>
     </Router>
   );
