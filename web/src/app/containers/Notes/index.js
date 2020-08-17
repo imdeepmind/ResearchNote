@@ -117,14 +117,9 @@ const Notes = (props) => {
       deleteNote: async (key) => {
         setError(null);
         const result = await deleteNote(key);
-        if (result && isValidCode(result.statusCode)) {
-          await notes.funcs.getAllNotes();
-          props.history.push(`/notes/`);
-          return result;
-        }
-        setError(
-          result && result.message ? result.message : "Can not delete the note"
-        );
+        await notes.funcs.getAllNotes();
+        props.history.push(`/notes/`);
+        return result;
       },
     },
   };
