@@ -10,7 +10,6 @@ const CreateNote = () => {
   const { createNoteModal } = notes["state"];
   const { toggleNotesModal, createNewNote } = notes["funcs"];
 
-  const [title, setTitle] = useState("");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -20,12 +19,10 @@ const CreateNote = () => {
     setOpen(createNoteModal);
   }, [createNoteModal]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (values) => {
     setLoading(true);
     if (createNewNote) {
-      await createNewNote({
-        title,
-      });
+      await createNewNote(values);
       form.resetFields();
     }
     modalClose();
@@ -37,17 +34,12 @@ const CreateNote = () => {
     toggleNotesModal && toggleNotesModal();
   };
 
-  const onFieldChange = (value) => {
-    const fieldValue = value && value[0] && value[0].value;
-    fieldValue && setTitle(fieldValue);
-  };
-
   return (
     <>
       <Modal
         title="Create a new note"
         visible={open}
-        onOk={handleSubmit}
+        onOk={() => form.submit()}
         onCancel={modalClose}
         okText={"Create"}
         confirmLoading={loading}
@@ -58,12 +50,11 @@ const CreateNote = () => {
         <Form
           name="create_note"
           onFinish={handleSubmit}
-          onFieldsChange={onFieldChange}
           form={form}
         >
           <Form.Item
             label="Note Name"
-            name="name"
+            name="title"
             rules={[
               {
                 required: true,
