@@ -27,7 +27,7 @@ const Home = (props) => {
           style={{ width: 300 }}
         />
         <Title level={3} type="secondary" style={{ margin: 0 }}>
-          A ultra minimal open-source completely free note taking app
+          Ultra-Minimal Open-Source 100% Free Note Taking App
         </Title>
         <GoogleLoginButton {...props} />
       </div>
