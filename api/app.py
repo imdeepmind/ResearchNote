@@ -7,6 +7,7 @@ from flask_cors import CORS
 from time import strftime
 from bson import json_util
 from flask.json import JSONEncoder
+from werkzeug.exceptions import HTTPException
 
 from utils import logger, send_resp, CustomJSONEncoder
 
@@ -38,7 +39,10 @@ def after_request(response):
                 response.status)
   return response
 
-@app.errorhandler(Exception) 
-def handle_error(error):
-  logger.exception(error)
-  return make_response(send_resp(500, "Something went wrong with the server"), 500)
+@app.errorhandler(Exception)
+def handle_error(e):
+  code = 500
+  logger.exception(e)
+  if isinstance(e, HTTPException):
+    code = e.code
+  return make_response(send_resp(code, str(e)), code)
