@@ -1,5 +1,6 @@
 from time import time
 from db import Notes as NotesDB
+from pymongo import DESCENDING
 
 from bson.objectid import ObjectId
 
@@ -12,7 +13,7 @@ class Notes:
       'email': email, 
       'title': title,
       'created_at': int(time()),
-      'updated_at': None
+      'updated_at': int(time()),
     }).inserted_id
 
   def update_note(self, email, id, title, content):
@@ -30,8 +31,7 @@ class Notes:
     return self.__collection.find_one({'email': email, '_id': ObjectId(id)})
   
   def get_all_notes(self, email, page_size):
-    cursor = self.__collection.find({'email': email}, {'content': 0}).limit(int(page_size))
-
+    cursor = self.__collection.find({'email': email}, {'content': 0}).sort([('updated_at', DESCENDING)]).limit(int(page_size))
     data = [x for x in cursor]
 
     return data
