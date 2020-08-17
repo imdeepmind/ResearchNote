@@ -1,8 +1,15 @@
 import Axios from "axios";
 
-let axios = Axios.create({
-  baseURL: process.env["REACT_APP_API_URL"],
-});
+let axios = null;
+if (process.env["REACT_APP_NODE_ENV"] === 'development') {
+   axios = Axios.create({
+    baseURL: process.env["REACT_APP_API_URL_DEV"],
+  });
+} else {
+  axios = Axios.create({
+    baseURL: process.env["REACT_APP_API_URL_PROD"],
+  });
+}
 
 axios.interceptors.request.use((config) => {
   let token = localStorage.getItem("id_token");
