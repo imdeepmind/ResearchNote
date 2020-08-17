@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import DraftEditor from "draft-js-plugins-editor";
 import { Typography, Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
@@ -56,6 +56,8 @@ const getBlockStyle = (block) => {
 
 const EditorComponent = (props) => {
   const { editorState, handleChange, unsavedData, deleteNote, id } = props;
+  const editor = useRef(null);
+
   // show loader if editorState is null
   if (!editorState) {
     return (
@@ -76,7 +78,7 @@ const EditorComponent = (props) => {
   }
 
   return (
-    <div className="editor">
+    <div className="editor" onClick={() => editor.current.focus()}>
       <DraftEditor
         spellCheck={true}
         onChange={handleChange}
@@ -85,6 +87,7 @@ const EditorComponent = (props) => {
         placeholder="Type something...."
         blockStyleFn={getBlockStyle}
         customStyleMap={styleMap}
+        ref={editor}
       />
       <SideToolbar>
         {(externalProps) => (

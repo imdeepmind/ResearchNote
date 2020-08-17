@@ -7,6 +7,10 @@ import EditorComponent from "./components/Editor";
 
 let lastInterval = null;
 
+const getInitialNode = (title) => {
+  return `{"blocks":[{"key":"3k31a","text":"${title}","type":"header-one","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"fea2d","text":"","type":"header-one","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}`;
+};
+
 const Editor = (props) => {
   // id of the page
   const id = props.match.params.id;
@@ -32,8 +36,13 @@ const Editor = (props) => {
           const data = convertFromRaw(JSON.parse(result.data.content));
           setEditorState(EditorState.createWithContent(data));
         } else {
-          setEditorState(EditorState.createEmpty());
+          const data = convertFromRaw(
+            JSON.parse(getInitialNode(result.data.title))
+          );
+          setEditorState(EditorState.createWithContent(data));
         }
+
+        setEditorState(editorState => EditorState.moveFocusToEnd(editorState));
       }
     };
 
