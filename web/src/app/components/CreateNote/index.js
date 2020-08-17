@@ -14,6 +14,8 @@ const CreateNote = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const [form] = Form.useForm();
+
   useEffect(() => {
     setOpen(createNoteModal);
   }, [createNoteModal]);
@@ -24,6 +26,7 @@ const CreateNote = () => {
       await createNewNote({
         title,
       });
+      form.resetFields();
     }
     modalClose();
     setLoading(false);
@@ -56,6 +59,7 @@ const CreateNote = () => {
           name="create_note"
           onFinish={handleSubmit}
           onFieldsChange={onFieldChange}
+          form={form}
         >
           <Form.Item
             label="Note Name"
