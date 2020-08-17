@@ -67,6 +67,7 @@ const Notes = (props) => {
         const result = await createNote(data);
         await notes.funcs.getAllNotes();
         if (result && isValidCode(result.statusCode)) {
+          notes.funcs.openNote({ key: result["data"]["_id"]["$oid"] });
           return result;
         }
         setError(

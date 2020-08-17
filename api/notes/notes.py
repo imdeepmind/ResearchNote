@@ -13,7 +13,7 @@ class Notes:
       'title': title,
       'created_at': int(time()),
       'updated_at': None
-    })
+    }).inserted_id
 
   def update_note(self, email, id, title, content):
     return self.__collection.find_one_and_update({'email': email, '_id': ObjectId(id)}, {'$set': {

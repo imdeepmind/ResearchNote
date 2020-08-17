@@ -80,7 +80,7 @@ def create_note():
   try:
       result = notes.create_note(email,data["title"])
 
-      return make_response(send_resp(200, "New note added in"), 200)
+      return make_response(send_resp(200, "New note added in", data={'_id': result}), 200)
   except ValueError as ex:
       return make_response(send_resp(400, str(ex)), 400)
   except Exception as ex:
