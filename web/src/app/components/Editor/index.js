@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
+import { Helmet } from "react-helmet";
 
 import NotesContext from "../../context/NotesContext";
 import EditorComponent from "./components/Editor";
@@ -68,13 +69,18 @@ const Editor = (props) => {
   };
 
   return (
-    <EditorComponent
-      editorState={editorState}
-      handleChange={handleChange}
-      unsavedData={unsavedData}
-      deleteNote={deleteNote}
-      id={id}
-    />
+    <>
+      <Helmet>
+        <title>{(title ? title : "Loading Notes") + " | Research Notes"}</title>
+      </Helmet>
+      <EditorComponent
+        editorState={editorState}
+        handleChange={handleChange}
+        unsavedData={unsavedData}
+        deleteNote={deleteNote}
+        id={id}
+      />
+    </>
   );
 };
 

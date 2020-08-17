@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography } from "antd";
+import { Helmet } from "react-helmet";
 
 import "./style.css";
 
@@ -17,6 +18,9 @@ const Welcome = () => {
         height: "100vh",
       }}
     >
+      <Helmet>
+        <title>{"Notes | Research Notes"}</title>
+      </Helmet>
       <Title>Hello, welcome to Research Notes</Title>
       <Title level={3} className="welcome-para">
         Research Notes is a ultra minimalistic open source note taking app.

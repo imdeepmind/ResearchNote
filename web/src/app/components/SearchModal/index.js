@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Modal, Input, Button, Form } from "antd";
+import { Helmet } from "react-helmet";
 
 import NotesContext from "../../context/NotesContext";
 
 import SearchTable from "./SearchTable";
 
-const SearchAllNotes = (props) => {
+const SearchAllNotes = () => {
   const notes = useContext(NotesContext);
 
   const { searchModal } = notes["state"];
@@ -52,6 +53,9 @@ const SearchAllNotes = (props) => {
           </Button>,
         ]}
       >
+        <Helmet>
+          <title>{"Search Notes | Research Notes"}</title>
+        </Helmet>
         <div
           style={{
             display: "flex",

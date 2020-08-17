@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Modal, Form, Input } from "antd";
+import { Helmet } from "react-helmet";
 
 import NotesContext from "../../context/NotesContext";
 
@@ -48,6 +49,9 @@ const CreateNote = () => {
         okText={"Create"}
         confirmLoading={loading}
       >
+        <Helmet>
+          <title>{"Create Note | Research Notes"}</title>
+        </Helmet>
         <Form
           name="create_note"
           onFinish={handleSubmit}
