@@ -71,7 +71,11 @@ const Sidebar = (props) => {
           <SubMenu
             key="account"
             icon={<UserOutlined />}
-            title={profile.firstName + " " + profile.lastName}
+            title={
+              profile.firstName
+                ? profile.firstName + " " + profile.lastName
+                : "Research Note User"
+            }
             style={{ marginBottom: 48 }}
           >
             <Menu.Item
