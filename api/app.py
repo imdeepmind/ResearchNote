@@ -22,9 +22,9 @@ app.config['ENV'] = getenv("PYTHON_ENV")
 app.config['DEBUG'] = getenv("FLASK_DEBUG")
 app.config['TESTING'] = getenv("FLASK_TESTING")
 
-app.register_blueprint(Authentication, url_prefix="/api/v1/auth")
-app.register_blueprint(Notes, url_prefix="/api/v1/notes")
-app.register_blueprint(Export, url_prefix="/api/v1/export")
+app.register_blueprint(Authentication, url_prefix="/research-notes/api/v1/auth")
+app.register_blueprint(Notes, url_prefix="/research-notes/api/v1/notes")
+app.register_blueprint(Export, url_prefix="/research-notes/api/v1/export")
 
 @app.after_request
 def after_request(response):
