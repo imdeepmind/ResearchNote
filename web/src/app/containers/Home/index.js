@@ -19,6 +19,7 @@ const Home = (props) => {
           textAlign: "center",
           height: "100vh",
           width: "100%",
+          padding: 10
         }}
       >
         <img
