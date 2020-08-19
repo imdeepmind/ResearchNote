@@ -8,16 +8,7 @@ const { Title } = Typography;
 
 const Welcome = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-        width: "100%",
-        height: "100vh",
-      }}
-    >
+    <div className="welcome">
       <Helmet>
         <title>{"Notes | Research Notes"}</title>
       </Helmet>
