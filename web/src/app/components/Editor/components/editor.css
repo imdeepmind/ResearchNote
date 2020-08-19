@@ -1,5 +1,7 @@
-.editor{
-  margin: 20px;
+.editor {
+  width: 80%;
+  float: right;
+  margin: 20px 5px;
 }
 
 .editor .editor-blockquote {
@@ -16,30 +18,30 @@
   padding: 20px;
 }
 
-.editor h1{
+.editor h1 {
   font-size: 26px;
 }
 
 @media (min-width: 576px) {
-  .editor{
+  .editor {
     margin: 30px 20px;
   }
 }
 
 @media (min-width: 768px) {
-  .editor{
+  .editor {
     margin: 40px;
   }
 }
 
 @media (min-width: 992px) {
-  .editor{
+  .editor {
     margin: 50px 100px;
   }
 }
 
 @media (min-width: 1600px) {
-  .editor{
+  .editor {
     margin: 50px 150px;
   }
 }

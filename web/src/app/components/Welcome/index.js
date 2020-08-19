@@ -21,7 +21,7 @@ const Welcome = () => {
       <Helmet>
         <title>{"Notes | Research Notes"}</title>
       </Helmet>
-      <Title>Hello, welcome to Research Notes</Title>
+      <Title>Hello, Welcome to Research Notes</Title>
       <Title level={3} className="welcome-para">
         Research Notes is a ultra minimalistic open source note taking app.
         Click on the "New Note" button to create a new note.
