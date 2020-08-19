@@ -1,7 +1,6 @@
 .editor {
-  width: 80%;
-  float: right;
-  margin: 20px 5px;
+  height: calc(100vh - 40px);
+  margin: 20px 10px;
 }
 
 .editor .editor-blockquote {
@@ -24,18 +23,21 @@
 
 @media (min-width: 576px) {
   .editor {
+    height: calc(100vh - 60px);
     margin: 30px 20px;
   }
 }
 
 @media (min-width: 768px) {
   .editor {
+    height: calc(100vh - 80px);
     margin: 40px;
   }
 }
 
 @media (min-width: 992px) {
   .editor {
+    height: calc(100vh - 200px);
     margin: 50px 100px;
   }
 }
