@@ -28,7 +28,7 @@ const Sidebar = (props) => {
   const { profile } = user["state"];
   const { deleteAccount, logout } = user["funcs"];
 
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
 
   const id = props.match.params.id;
 
@@ -48,7 +48,6 @@ const Sidebar = (props) => {
           mode="inline"
           theme="dark"
           defaultSelectedKeys={["notes", `${id}`]}
-          defaultOpenKeys={["notes"]}
         >
           <Menu.Item onClick={toggleNotesModal} icon={<PlusOutlined />}>
             New Note
