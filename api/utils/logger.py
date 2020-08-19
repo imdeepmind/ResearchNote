@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 if getenv("PYTHON_ENV") == "development":
     logger.setLevel(logging.DEBUG)
 else:
-    logger.setLevel(logging.WARNING)
+    logger.setLevel(logging.INFO)
 
 # Setting the log message format
 formatter = logging.Formatter(
