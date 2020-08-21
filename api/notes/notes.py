@@ -8,12 +8,13 @@ class Notes:
   def __init__(self):
     self.__collection = NotesDB
   
-  def create_note(self, email, title):
+  def create_note(self, email, title, note_type='main_note'):
     return self.__collection.insert_one({
       'email': email, 
       'title': title,
       'created_at': int(time()),
       'updated_at': int(time()),
+      'note_type': 'main_note'
     }).inserted_id
 
   def update_note(self, email, id, title, content):
