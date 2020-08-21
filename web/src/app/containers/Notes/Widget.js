@@ -1,5 +1,4 @@
 import React from "react";
-import { Layout } from "antd";
 import { Route } from "react-router-dom";
 
 import Editor from "../../components/Editor";
@@ -8,20 +7,16 @@ import CreateNote from "../../components/CreateNote";
 import SearchAllNotesModal from "../../components/SearchModal";
 import Welcome from "../../components/Welcome";
 
-const { Content } = Layout;
-
 const Widget = (props) => {
   return (
     <>
-      <Layout style={{ minHeight: '100vh' }}>
+      <div style={{display: "flex"}}>
         <Sidebar match={props.match}/>
-        <Layout className="site-layout">
-          <Content>
-            <Route path="/notes/" exact component={Welcome} />
-            <Route path="/notes/:id" component={Editor} />
-          </Content>
-        </Layout>
-      </Layout>
+        <div style={{width: "100%"}}>
+          <Route path="/notes/" exact component={Welcome} />
+          <Route path="/notes/:id" component={Editor} />
+        </div>
+      </div>
       <CreateNote />
       <SearchAllNotesModal />
     </>

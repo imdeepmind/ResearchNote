@@ -41,7 +41,8 @@ const Sidebar = (props) => {
         style={{
           overflow: "auto",
           height: "100vh",
-          left: 0
+          left: 0,
+          position: "fixed"
         }}
       >
         <Menu
