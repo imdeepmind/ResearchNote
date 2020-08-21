@@ -6,6 +6,9 @@ def is_title(title):
 def is_note_type(note_type):
   return note_type in("main_note", "sub_note")
 
+def is_access_token(access_token):
+  return True if access_token else False
+
 def validate(schema, data):
   errors = {}
   filtered_data = {}
@@ -31,6 +34,14 @@ def validate(schema, data):
 
       if not result:
         add_error(scheme["type"], "Please provide a valid note type")
+      else:
+        filtered_data[name] = data[name]
+    
+    elif scheme["type"] == 'access_token':
+      result = is_access_token(data[name])
+
+      if not result:
+        add_error(scheme["type"], "Please provide a valid access token")
       else:
         filtered_data[name] = data[name]
 

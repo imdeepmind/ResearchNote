@@ -3,6 +3,8 @@ from flask import Blueprint, request, make_response
 from utils import send_resp, logger
 from authentication import Authentication
 
+from validator import validate
+
 auth_api = Blueprint('auth_api', __name__)
 authentication = Authentication()
 
@@ -33,16 +35,10 @@ def get_user():
 def google_login():
   data = request.json
 
-  errors = []
+  is_invalid, errors, data = validate([{'type': 'access_token', 'name': 'access_token'}], data)
 
-  if "access_token" not in data:
-    errors.append({
-      'field': 'access_token',
-      'error': 'Please provide a valid google token'
-    })
-  
-  if len(errors) > 0:
-    return make_response(send_resp(400, "Input validation failed", data={'errors': errors}), 400)
+  if is_invalid:
+    return make_response(send_resp(400, "Input validation failed", data={'errors': errors, 'data': data}), 400)
 
   try:
       result = authentication.google_login(data["access_token"])
