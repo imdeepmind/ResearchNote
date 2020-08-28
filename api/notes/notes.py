@@ -32,7 +32,7 @@ class Notes:
     return self.__collection.find_one({'email': email, '_id': ObjectId(id)})
   
   def get_all_notes(self, email, page_size):
-    cursor = self.__collection.find({'email': email}, {'content': 0}).sort([('updated_at', DESCENDING)]).limit(int(page_size))
+    cursor = self.__collection.find({'email': email, 'note_type': {'$ne': 'sub_note'}}, {'content': 0}).sort([('updated_at', DESCENDING)]).limit(int(page_size))
     data = [x for x in cursor]
 
     return data
