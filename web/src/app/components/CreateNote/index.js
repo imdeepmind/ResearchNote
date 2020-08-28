@@ -22,7 +22,7 @@ const CreateNote = () => {
   const handleSubmit = async (values) => {
     setLoading(true);
     if (createNewNote) {
-      await createNewNote(values);
+      await createNewNote({...values, note_type: 'main_note'});
       form.resetFields();
     }
     modalClose();
