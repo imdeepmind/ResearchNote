@@ -1,7 +1,7 @@
 import re
 
 def is_title(title):
-  return True if re.match(r"^[A-Za-z0-9_-]+$", title) else False
+  return True if re.match(r"^[A-Za-z0-9 _-]+$", title) else False
 
 def is_note_type(note_type):
   return note_type in("main_note", "sub_note")

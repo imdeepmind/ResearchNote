@@ -4,6 +4,8 @@ from utils import send_resp, logger
 from notes import Notes
 from authentication import Authentication
 
+from validator import validate
+
 notes_api = Blueprint('notes_api', __name__)
 notes = Notes()
 authentication = Authentication()
@@ -66,19 +68,13 @@ def create_note():
   
   email = token_data["email"]
 
-  errors = []
+  is_invalid, errors, data = validate([{'type': 'title', 'name': 'title'}, { 'type': 'note_type', 'name': 'note_type' }], data)
 
-  if "title" not in data:
-    errors.append({
-      'field': 'title',
-      'error': 'Please provide a valid title'
-    })
-  
-  if len(errors) > 0:
-    return make_response(send_resp(400, "Input validation failed", data={'errors': errors}), 400)
+  if is_invalid:
+    return make_response(send_resp(400, "Input validation failed", data={'errors': errors, 'data': data}), 400)
 
   try:
-      result = notes.create_note(email,data["title"])
+      result = notes.create_note(email, data["title"], data["note_type"])
 
       return make_response(send_resp(200, "New note added in", data={'_id': result}), 200)
   except ValueError as ex:
